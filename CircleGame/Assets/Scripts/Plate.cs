@@ -42,8 +42,13 @@ public class Plate : MonoBehaviour {
 	};
 	GameObject[] circles;
 	TouchHandler touchHandler;
+	float[] last_rotations;
+	int circleIndex;
+
 	// Use this for initialization
 	void Start () {
+
+		last_rotations = new float[layerNum];
 
 		drawGame ();
 		
@@ -64,16 +69,13 @@ public class Plate : MonoBehaviour {
 		Vector3 center = transform.position;
 		float distance = Vector2.Distance (new Vector2 (touchPos.x, touchPos.y), new Vector2 (center.x, center.y));
 
+		int ret = 3;
 		for (int i = 0; i < layerNum; i++) {
-
+			if (distance < config [i].radius) {
+				ret = i + 1;
+			}
 		}
-
-		if (distance < config[0].radius)
-			return 1;
-		else if (distance >= config[0].radius && distance < config[3].radius)
-			return 2;
-		else
-			return 3;
+		return ret;
 	}
 
 
@@ -86,9 +88,9 @@ public class Plate : MonoBehaviour {
 	{
 		Debug.Log ("wenkan Main on touch begin");
 		circleIndex = getTouchCircleIndex (startPos);
-		int startIndex = (circleIndex - 1) * 3;
+		int startIndex = (circleIndex - 1) * layerNum;
 
-		for (int i = startIndex; i < startIndex + 3; i++) {
+		for (int i = startIndex; i < startIndex + layerNum; i++) {
 			last_rotations [i] = circles [i].transform.rotation.eulerAngles.z;
 		}
 
@@ -98,7 +100,8 @@ public class Plate : MonoBehaviour {
 	{
 		Debug.Log ("wenkan "+curPos.ToString()+" "+angle.ToString());
 
-		for (int i = (circleIndex-1)*3; i < (circleIndex-1)*3 + 3; i++) {
+		int startIndex = (circleIndex - 1) * layerNum;
+		for (int i = startIndex; i < startIndex + layerNum; i++) {
 			float last_rotation = last_rotations [i];
 			circles [i].transform.rotation = Quaternion.Euler (new Vector3 (0, 0, last_rotation - angle));
 		}
@@ -107,8 +110,8 @@ public class Plate : MonoBehaviour {
 	public void onTouchEnd(Vector2 curPos)
 	{
 		Debug.Log ("wenkan Main on touch end");
-		int startIndex = (circleIndex - 1) * 3;
-		for (int i = startIndex; i < startIndex + 3; i++) {
+		int startIndex = (circleIndex - 1) * layerNum;
+		for (int i = startIndex; i < startIndex + layerNum; i++) {
 			last_rotations [i] = circles [i].transform.rotation.eulerAngles.z;
 		}
 		circleIndex = -1;
