@@ -30,12 +30,17 @@ public class EditorControl : MonoBehaviour {
 
 	public void save (){
 		string file_path = Application.dataPath+"/Datas/"; 
+		config = plate.GetComponent<Plate> ().config;
 		int n = config.Length;
 		string res = "";
+		res += layerNum.ToString ();
+		res += "$";
+		res += seperateNum.ToString ();
+		res += "$";
 		for (int i = 0; i < n; i++) {
 			string json = JsonUtility.ToJson (config [i]);
 			res += json;
-			res += "$$";
+			res += "$";
 		}
 		FileStream file_stream;  
 		string file_name = levelName;
@@ -75,6 +80,22 @@ public class EditorControl : MonoBehaviour {
 		string file_path = Application.dataPath+"/Datas/"; 
 		string file_name = levelName;
 		file_stream = File.OpenRead (file_path + "//" + file_name);
+		int fsLen = (int)file_stream.Length;
+		byte[] heByte = new byte[fsLen];
+		int r = file_stream.Read(heByte, 0, heByte.Length);
+		string myStr = System.Text.Encoding.UTF8.GetString(heByte);	
+		string[] tmpS = myStr.Split ('$');
+		layerNum = int.Parse( tmpS [0]);
+		seperateNum = int.Parse (tmpS [1]);
+		plate.GetComponent<Plate> ().layerNum = layerNum;
+		plate.GetComponent<Plate> ().seperateNum = seperateNum;
+		plate.GetComponent<Plate> ().config = new SectorConfig[layerNum * seperateNum];
+		for (int i = 2; i < tmpS.Length - 1; i++) {
+			string json = tmpS [i];
+			plate.GetComponent<Plate> ().config [i - 2] = JsonUtility.FromJson<SectorConfig> (json);
+		}
+		plate.GetComponent<Plate> ().refresh ();
+//		plate.GetComponent<Plate>().
 	}
 
 	public void setColor(string s ){

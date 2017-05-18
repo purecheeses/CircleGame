@@ -19,6 +19,7 @@ public class GlobalTool : MonoBehaviour {
 	}
 
 	public int getTouchSectorIndex(Vector2 pos) {
+		init ();
 		Vector3 touchPos = Camera.main.ScreenToWorldPoint (new Vector3 (pos.x, pos.y, 0));
 		Vector3 center = transform.position;
 		float distance = Vector2.Distance (new Vector2 (touchPos.x, touchPos.y), new Vector2 (center.x, center.y));
@@ -53,7 +54,6 @@ public class GlobalTool : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0)) {
 			Vector3 curPos = Input.mousePosition;
 			int index = getTouchSectorIndex (curPos);
-
 			if (index!=-1) {
 				Debug.Log (plate.GetComponent<Plate> ().config [6].r);
 				Color color = Camera.main.GetComponent<EditorControl> ().selectColor;
