@@ -2,18 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct SectorConfig {
-	public SectorConfig(float angle, float rotation, float radius, Color c) {
-		this.angle = angle;
-		this.radius = radius;
-		this.c = c;
-		this.rotation = rotation;
-	}
-	public float angle;
-	public float radius;
-	public Color c;
-	public float rotation;
-}
 
 public class Main : MonoBehaviour {
 
@@ -26,6 +14,8 @@ public class Main : MonoBehaviour {
 			SectorConfig c = config [i];
 			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, c.c);
 			circles [i].transform.Rotate (new Vector3(0, 0, c.rotation));
+			Vector3 t = circles [i].transform.position;
+			circles [i].transform.position = new Vector3 (t.x, t.y, c.radius);
 		}
 	}
 

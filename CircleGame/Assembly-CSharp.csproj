@@ -46,11 +46,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\scripts\ButtonHandler.cs" />
-     <Compile Include="Assets\scripts\Draw.cs" />
-     <Compile Include="Assets\scripts\Main.cs" />
-     <Compile Include="Assets\scripts\Math.cs" />
-     <Compile Include="Assets\scripts\UIEventListener.cs" />
+     <Compile Include="Assets\Scripts\ButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\Draw.cs" />
+     <Compile Include="Assets\Scripts\Main.cs" />
+     <Compile Include="Assets\Scripts\Math.cs" />
+     <Compile Include="Assets\Scripts\Plate.cs" />
+     <Compile Include="Assets\Scripts\UIEventListener.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
