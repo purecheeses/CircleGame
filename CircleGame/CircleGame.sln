@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{7B0620AB-6DF7-6422-A369-014B71D69AC9}") = "CircleGame", "Assembly-CSharp.csproj", "{D24FE945-80FB-7E62-E1F8-45639B80BECE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D24FE945-80FB-7E62-E1F8-45639B80BECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24FE945-80FB-7E62-E1F8-45639B80BECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24FE945-80FB-7E62-E1F8-45639B80BECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24FE945-80FB-7E62-E1F8-45639B80BECE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
