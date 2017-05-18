@@ -6,6 +6,7 @@ public class GlobalTool : MonoBehaviour {
 	public GameObject plate;
 	Vector3 center;
 	SectorConfig[] config;
+
 	int layerNum;
 	void Start(){
 		init ();
@@ -52,7 +53,15 @@ public class GlobalTool : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0)) {
 			Vector3 curPos = Input.mousePosition;
 			int index = getTouchSectorIndex (curPos);
-			Debug.Log (index);
+
+			if (index!=-1) {
+				Debug.Log (plate.GetComponent<Plate> ().config [6].r);
+				Color color = Camera.main.GetComponent<EditorControl> ().selectColor;
+				plate.GetComponent<Plate> ().config [index].r = color.r;
+				plate.GetComponent<Plate> ().config [index].g = color.g;
+				plate.GetComponent<Plate> ().config [index].b = color.b;
+				plate.GetComponent<Plate> ().refresh ();
+			}
 		}
 	}
 }

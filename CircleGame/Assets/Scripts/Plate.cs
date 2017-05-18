@@ -26,6 +26,7 @@ public struct SectorConfig {
 public class Plate : MonoBehaviour {
 	public int layerNum = 3;			//hot many layers in plate
 	public int seperateNum = 3;			//how many piece per layer
+	[SerializeField]
 	public SectorConfig[] config = {
 		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
 		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
@@ -60,13 +61,14 @@ public class Plate : MonoBehaviour {
 
 
 	void drawSector(){
-		GameObject[] circles = new GameObject[9];
+		circles = new GameObject[layerNum * seperateNum];
 		for (int i = 0; i < layerNum * seperateNum; i++) {
 			SectorConfig c = config [i];
-			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(1.0f/c.r,1.0f/c.g,1.0f/c.b));
+			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f));
 			circles [i].transform.Rotate (new Vector3(0, 0, c.rotation));
 			Vector3 t = circles [i].transform.position;
 			circles [i].transform.position = new Vector3 (t.x, t.y, c.radius);
+			circles [i].name = "sector_"+ i.ToString();
 		}
 	}
 
@@ -77,7 +79,28 @@ public class Plate : MonoBehaviour {
 
 	void clean(){
 		foreach (Transform t in GetComponentsInChildren<Transform>()) {
-			Destroy (t.gameObject);
+			if (transform != t) {
+				Destroy (t.gameObject);			
+			}
+		}
+	}
+
+	public void refresh(){
+		clean ();
+		drawGame ();
+	}
+
+	public void makeNewData(){
+		config = new SectorConfig[layerNum * seperateNum];
+		int n = -1;
+		for (int i = 0; i < layerNum; i++) {
+			for (int j = 0; j < seperateNum; j++) {
+				++n;
+				float radius = globalConfig.radius / layerNum * (i + 1);
+				float rot = 360 / seperateNum * j;
+				float angle = 360 / seperateNum;
+				config [n] = new SectorConfig (angle, rot, radius, Random.Range (0, 255), Random.Range (0, 255), Random.Range (0, 255));
+			}
 		}
 	}
 }

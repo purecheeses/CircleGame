@@ -12,7 +12,9 @@ public class EditorControl : MonoBehaviour {
 	public GameObject layerInput;
 	public GameObject seperateInput;
 	public GameObject levelInput;
-	SectorConfig[] config = {
+	public Color selectColor;
+	public GameObject plate;
+	public SectorConfig[] config = {
 		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
 		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
 		new SectorConfig(120f, 240f, 1.0f, 0,0,255),
@@ -55,11 +57,17 @@ public class EditorControl : MonoBehaviour {
 	public void recordPieceNum(string s){
 		string ss = seperateInput.GetComponent<InputField> ().text;
 		seperateNum = int.Parse (ss);
+		plate.GetComponent<Plate> ().seperateNum = seperateNum;
+		plate.GetComponent<Plate> ().makeNewData ();
+		plate.GetComponent<Plate> ().refresh ();
 	}
 
 	public void recordLayerNum(string s){
 		string ss = layerInput.GetComponent<InputField> ().text;
 		layerNum = int.Parse (ss);
+		plate.GetComponent<Plate> ().layerNum = layerNum;
+		plate.GetComponent<Plate> ().makeNewData ();
+		plate.GetComponent<Plate> ().refresh ();
 	}
 
 	public void open(){
@@ -67,5 +75,10 @@ public class EditorControl : MonoBehaviour {
 		string file_path = Application.dataPath+"/Datas/"; 
 		string file_name = levelName;
 		file_stream = File.OpenRead (file_path + "//" + file_name);
+	}
+
+	public void setColor(string s ){
+		string[] ss = s.Split (',');
+		selectColor = new Color(float.Parse(ss[0]),float.Parse(ss[1]),float.Parse(ss[2]));
 	}
 }
