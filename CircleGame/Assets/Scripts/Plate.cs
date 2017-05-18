@@ -17,7 +17,6 @@ public struct SectorConfig {
 	}
 	public float angle;
 	public float radius;			
-//	public Color c;
 	public float r;
 	public float g;
 	public float b;
@@ -27,7 +26,7 @@ public struct SectorConfig {
 public class Plate : MonoBehaviour {
 	public int layerNum = 3;			//hot many layers in plate
 	public int seperateNum = 3;			//how many piece per layer
-	SectorConfig[] config = {
+	public SectorConfig[] config = {
 		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
 		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
 		new SectorConfig(120f, 240f, 1.0f, 0,0,255),
