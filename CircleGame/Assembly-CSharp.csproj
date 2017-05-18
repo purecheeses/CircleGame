@@ -53,7 +53,6 @@
      <Compile Include="Assets\Scripts\Math.cs" />
      <Compile Include="Assets\Scripts\Plate.cs" />
      <Compile Include="Assets\Scripts\UIEventListener.cs" />
-     <None Include="Assets\Datas\aaaa.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

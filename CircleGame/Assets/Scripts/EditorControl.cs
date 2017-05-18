@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;  
 using System.Text;
+using UnityEngine.UI;
 
 public class EditorControl : MonoBehaviour {
 	public int layerNum = 3;
 	public int seperateNum =3;
 	public string levelName = "1-1";
+	public GameObject layerInput;
+	public GameObject seperateInput;
+	public GameObject levelInput;
 	SectorConfig[] config = {
 		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
 		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
@@ -46,15 +50,16 @@ public class EditorControl : MonoBehaviour {
 	}
 
 	public void recordLevel(string s){
-		Debug.Log (s);
-		levelName = s;
+		levelName = levelInput.GetComponent<InputField> ().text;
 	}
 	public void recordPieceNum(string s){
-		seperateNum = int.Parse (s);
+		string ss = seperateInput.GetComponent<InputField> ().text;
+		seperateNum = int.Parse (ss);
 	}
 
 	public void recordLayerNum(string s){
-		layerNum = int.Parse (s);
+		string ss = layerInput.GetComponent<InputField> ().text;
+		layerNum = int.Parse (ss);
 	}
 
 	public void open(){
