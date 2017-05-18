@@ -54,11 +54,9 @@ public class DrawTool : MonoBehaviour
 		float eachAngle = 360f / pointAmount;
 		Vector3 forward = t.up;
 
-		int currentAmount = lr.numPositions;
-		lr.numPositions = currentAmount + pointAmount + 1;
-//		lr.SetVertexCount(pointAmount + 1);
+		lr.numPositions =  pointAmount + 1;
 
-		for (int i = 0 + currentAmount; i <= pointAmount + currentAmount; i++)
+		for (int i = 0 ; i <= pointAmount; i++)
 		{
 			Vector3 pos = Quaternion.Euler(0f,  0f,eachAngle * i) * forward * radius + center;
 			pos.z = pos.z - 0.1f;

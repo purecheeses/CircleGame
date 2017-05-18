@@ -12,7 +12,7 @@ public class Main : MonoBehaviour {
 		}
 		for (int i = 0; i < 9; i++) {
 			SectorConfig c = config [i];
-			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, c.c);
+			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r,c.g,c.b));
 			circles [i].transform.Rotate (new Vector3(0, 0, c.rotation));
 			Vector3 t = circles [i].transform.position;
 			circles [i].transform.position = new Vector3 (t.x, t.y, c.radius);
@@ -29,17 +29,17 @@ public class Main : MonoBehaviour {
 	static GameObject[] circles = new GameObject[9];
 
 	static SectorConfig[] config = {
-		new SectorConfig(120f, 0f, 1.0f, Color.red),
-		new SectorConfig(120f, 120f, 1.0f, Color.green),
-		new SectorConfig(120f, 240f, 1.0f, Color.blue),
+		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
+		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
+		new SectorConfig(120f, 240f, 1.0f, 0,0,255),
 
-		new SectorConfig(120f, 25f, 2.0f, Color.red),
-		new SectorConfig(120f, 145f, 2.0f, Color.green),
-		new SectorConfig(120f, 265f, 2.0f, Color.blue),
+		new SectorConfig(120f, 25f, 2.0f, 255,2,0),
+		new SectorConfig(120f, 145f, 2.0f, 0,255,2),
+		new SectorConfig(120f, 265f, 2.0f, 0,0,255),
 
-		new SectorConfig(120f, 45f, 3.0f, Color.red),
-		new SectorConfig(120f, 165f, 3.0f, Color.green),
-		new SectorConfig(120f, 285f, 3.0f, Color.blue),
+		new SectorConfig(120f, 45f, 3.0f, 255,2,2),
+		new SectorConfig(120f, 165f, 3.0f, 0,255,0),
+		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
 
 	};
 
