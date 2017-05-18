@@ -40,14 +40,82 @@ public class Plate : MonoBehaviour {
 		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
 	};
 	GameObject[] circles;
+	TouchHandler touchHandler;
 	// Use this for initialization
 	void Start () {
+
 		drawGame ();
+		
+		this.touchHandler = new TouchHandler (Camera.main.WorldToScreenPoint(transform.position));
+		this.touchHandler.onTouchBegan += onTouchBegin;
+		this.touchHandler.onTouchEnd += onTouchEnd;
+		this.touchHandler.onTouchMove += onTouchMove;
+		this.touchHandler.onTouchStationary += onTouchStationary;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		this.touchHandler.onUpdate ();
+	}
+
+	int getTouchCircleIndex(Vector2 pos) {
+		Vector3 touchPos = Camera.main.ScreenToWorldPoint (new Vector3 (pos.x, pos.y, 0));
+		Vector3 center = transform.position;
+		float distance = Vector2.Distance (new Vector2 (touchPos.x, touchPos.y), new Vector2 (center.x, center.y));
+
+		for (int i = 0; i < layerNum; i++) {
+
+		}
+
+		if (distance < config[0].radius)
+			return 1;
+		else if (distance >= config[0].radius && distance < config[3].radius)
+			return 2;
+		else
+			return 3;
+	}
+
+
+	private Quaternion getQuaterionFromAngle(float angle)
+	{
+		return Quaternion.Euler(new Vector3(0, 0, angle));
+	}
+
+	public void onTouchBegin(Vector2 startPos)
+	{
+		Debug.Log ("wenkan Main on touch begin");
+		circleIndex = getTouchCircleIndex (startPos);
+		int startIndex = (circleIndex - 1) * 3;
+
+		for (int i = startIndex; i < startIndex + 3; i++) {
+			last_rotations [i] = circles [i].transform.rotation.eulerAngles.z;
+		}
+
+	}
+
+	public void onTouchMove(Vector2 curPos, float angle)
+	{
+		Debug.Log ("wenkan "+curPos.ToString()+" "+angle.ToString());
+
+		for (int i = (circleIndex-1)*3; i < (circleIndex-1)*3 + 3; i++) {
+			float last_rotation = last_rotations [i];
+			circles [i].transform.rotation = Quaternion.Euler (new Vector3 (0, 0, last_rotation - angle));
+		}
+	}
+
+	public void onTouchEnd(Vector2 curPos)
+	{
+		Debug.Log ("wenkan Main on touch end");
+		int startIndex = (circleIndex - 1) * 3;
+		for (int i = startIndex; i < startIndex + 3; i++) {
+			last_rotations [i] = circles [i].transform.rotation.eulerAngles.z;
+		}
+		circleIndex = -1;
+	}
+
+	public void onTouchStationary (Vector2 curPos)
+	{
+		Debug.Log ("wenkan Main on touch stationary");
 	}
 
 	void drawFrontier(){
