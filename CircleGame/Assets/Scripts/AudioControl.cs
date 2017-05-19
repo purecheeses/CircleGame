@@ -6,23 +6,39 @@ public class AudioControl : MonoBehaviour {
 
 	//音乐文件
 	public AudioSource music;
+	public AudioSource tmpMusic;
 	//音量
 	public float musicVolume;	
-
+	float playStartTime;
+	float musicLength;
+	AudioClip backgroudClip;
 	void Start() {
 		//设置默认音量
 		musicVolume = 0.5F;
+		backgroudClip = Resources.Load("Musics/bgm_01") as AudioClip ;
+		music.clip = backgroudClip;
+		playStartTime = 0.0f;
+		musicLength = 0f;
 	}
+
+	void Update(){
+		if (musicLength > 0) {
+			musicLength -= Time.deltaTime;
+			if (musicLength <=0) {
+				PlayBackBackground ();
+			}
+
+		}
+	}
+
 	void OnGUI() {
 
 		//播放音乐按钮
 		if (GUI.Button(new Rect(10, 10, 100, 50), "Play music"))  {
 
 			//没有播放中
-			if (!music.isPlaying){
 				//播放音乐
-				music.Play();
-			}
+				Play("mi");
 
 		}
 
@@ -61,5 +77,17 @@ public class AudioControl : MonoBehaviour {
 			//音乐播放中设置音乐音量 取值范围 0.0F到 1.0
 			music.volume = musicVolume;
 		}
+	}
+
+	void Play(string clipName){
+		AudioClip clip = Resources.Load("Musics/"+clipName) as AudioClip ;
+		tmpMusic.clip = clip;
+		musicLength = tmpMusic.clip.length;
+		tmpMusic.Play ();
+	}
+
+	void PlayBackBackground(){
+		music.clip = backgroudClip;
+		music.Play ();
 	}
 }
