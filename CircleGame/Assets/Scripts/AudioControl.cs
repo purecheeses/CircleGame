@@ -79,7 +79,7 @@ public class AudioControl : MonoBehaviour {
 		}
 	}
 
-	void Play(string clipName){
+	public void Play(string clipName){
 		AudioClip clip = Resources.Load("Musics/"+clipName) as AudioClip ;
 		tmpMusic.clip = clip;
 		musicLength = tmpMusic.clip.length;

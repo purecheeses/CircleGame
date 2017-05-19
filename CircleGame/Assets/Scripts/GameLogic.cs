@@ -105,6 +105,12 @@ public class GameLogic
 
 	private void onEnterSector(int sectorIndex)
 	{
+		var c = _p.config [sectorIndex];
+		string s = c.r + "," + c.g + "," + c.b;
+		Debug.Log (s);
+		string res = globalConfig.colorMusicPair [s];
+		Debug.Log (res);
+		Camera.main.GetComponent<AudioControl> ().Play (res);
 		Debug.Log ("wenkan onEneterSector "+sectorIndex.ToString());
 	}
 

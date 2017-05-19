@@ -1,9 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;  
+using System.Text;
+using UnityEngine.UI;
 
 public static class globalConfig{
 	public static float radius = 3.0f;
+	public static Dictionary<string,string> colorMusicPair = new Dictionary<string, string> (){
+		{"102,102,211","do"},
+		{"99,186,217","re"},
+		{"126,200,110","mi"},
+		{"250,246,84","fa"},
+		{"249,169,74","so"},
+		{"247,87,131","la"},
+		{"99,125,233","xi"},
+	};
+
 }
 
 public struct SectorConfig {
@@ -57,7 +70,8 @@ public class Plate : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		drawGame ();
+//		drawGame ();
+		open("1-1");
 	}
 	
 	// Update is called once per frame
@@ -139,5 +153,26 @@ public class Plate : MonoBehaviour {
 		}
 	}
 
-
+	public void open(string levelName){
+		FileStream file_stream;  
+		string file_path = Application.dataPath+"/Datas/"; 
+		string file_name = levelName;
+		file_stream = File.OpenRead (file_path + "//" + file_name);
+		int fsLen = (int)file_stream.Length;
+		byte[] heByte = new byte[fsLen];
+		int r = file_stream.Read(heByte, 0, heByte.Length);
+		string myStr = System.Text.Encoding.UTF8.GetString(heByte);	
+		string[] tmpS = myStr.Split ('$');
+		layerNum = int.Parse( tmpS [0]);
+		seperateNum = int.Parse (tmpS [1]);
+		GetComponent<Plate> ().layerNum = layerNum;
+		GetComponent<Plate> ().seperateNum = seperateNum;
+		GetComponent<Plate> ().config = new SectorConfig[layerNum * seperateNum];
+		for (int i = 2; i < tmpS.Length - 1; i++) {
+			string json = tmpS [i];
+			GetComponent<Plate> ().config [i - 2] = JsonUtility.FromJson<SectorConfig> (json);
+		}
+		GetComponent<Plate> ().refresh ();
+		//		plate.GetComponent<Plate>().
+	}
 }
