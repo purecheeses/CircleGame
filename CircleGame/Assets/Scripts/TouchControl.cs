@@ -16,6 +16,18 @@ public class TouchControl : MonoBehaviour {
 
 
 	void Start () {
+		reset ();
+		this.touchHandler = new TouchHandler (Camera.main.WorldToScreenPoint(transform.position));
+		this.touchHandler.onTouchBegan += onTouchBegin;
+		this.touchHandler.onTouchEnd += onTouchEnd;
+		this.touchHandler.onTouchMove += onTouchMove;
+		this.touchHandler.onTouchStationary += onTouchStationary;
+
+		logic = new GameLogic(GetComponent<Plate>());
+	}
+
+	public void reset()
+	{
 		layerNum = GetComponent<Plate> ().layerNum;
 		config = GetComponent<Plate> ().config;
 		sectors = GetComponent<Plate> ().sectors;
@@ -25,18 +37,13 @@ public class TouchControl : MonoBehaviour {
 		for (int i = 0; i < layerNum; i++) {
 			radiusConfig [i] = config [i * sectorNum].radius;
 		}
-		this.touchHandler = new TouchHandler (Camera.main.WorldToScreenPoint(transform.position));
-		this.touchHandler.onTouchBegan += onTouchBegin;
-		this.touchHandler.onTouchEnd += onTouchEnd;
-		this.touchHandler.onTouchMove += onTouchMove;
-		this.touchHandler.onTouchStationary += onTouchStationary;
-
-		logic = new GameLogic(GetComponent<Plate>());
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		this.touchHandler.onUpdate ();
+		if (this.touchHandler != null) {
+			this.touchHandler.onUpdate ();
+		}
 	}
 
 	int getTouchCircleIndex(Vector2 pos) {
@@ -65,10 +72,11 @@ public class TouchControl : MonoBehaviour {
 	{
 //		Debug.Log ("wenkan Main on touch begin");
 		circleIndex = getTouchCircleIndex (startPos);
-//		Debug.Log ("wenkan " + circleIndex.ToString ());
+//		Debug.Log ("wenkan " + circleIndex.ToString () + " " + last_rotations.Length + " " +sectors.Length + " " + sectorNum);
 		int startIndex = circleIndex * sectorNum;
 
 		for (int i = startIndex; i < startIndex + sectorNum; i++) {
+			Debug.Log (i);
 			last_rotations [i] = sectors [i].transform.rotation.eulerAngles.z;
 			GetComponent<Plate> ().setSectorRotation (i, last_rotations [i]);
 		}
