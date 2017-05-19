@@ -23,7 +23,6 @@ public class TouchControl : MonoBehaviour {
 		last_rotations = new float[sectorNum*layerNum];
 		radiusConfig = new float[layerNum];
 		for (int i = 0; i < layerNum; i++) {
-			Debug.Log (config [i * sectorNum].radius);
 			radiusConfig [i] = config [i * sectorNum].radius;
 		}
 		this.touchHandler = new TouchHandler (Camera.main.WorldToScreenPoint(transform.position));
