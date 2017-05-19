@@ -166,7 +166,7 @@ public class GameLogic
 	{
 		int[] ret = new int[circleCount];
 		for (int i = 0; i < circleCount; i++) {
-			ret[i] = calcPointedSectorIndex(circleIndex:);
+			ret[i] = calcPointedSectorIndex(i);
 		}
 		return ret;
 	}
