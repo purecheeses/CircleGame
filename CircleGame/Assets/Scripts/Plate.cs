@@ -16,7 +16,9 @@ public static class globalConfig{
 		{"247,87,131","la"},
 		{"99,125,233","xi"},
 	};
-
+	public static List<string> levelList = new List<string> () {
+		"1-1", "1-2", "1-3",
+	};
 }
 
 public struct SectorConfig {
@@ -39,6 +41,8 @@ public struct SectorConfig {
 public class Plate : MonoBehaviour {
 	public int layerNum = 3;			//hot many layers in plate
 	public int seperateNum = 3;			//how many piece per layer
+	public int levelNum = 0;
+	public GameObject targetUI;
 	[SerializeField]
 	public SectorConfig[] config = {
 		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
@@ -231,15 +235,37 @@ public class Plate : MonoBehaviour {
 		foreach (var s1 in sss) {
 			winMusic.Add (s1);
 		}
+		setTarget ();
 //		file_stream.Close ();
 	}
 		
 	public void getOneNoteDone(string note){
 		if (winMusic [0] != null && winMusic[0] == note ) {
 			winMusic.RemoveAt (0);
-			Debug.Log (note);
+			refreshTargetUI ();
 		}
 	}
 
+	void setTarget(){
+		targetUI.GetComponent<Text> ().text = winCond;
+	}
 
+	void refreshTargetUI(){
+		if (winMusic.Count > 0) {
+			string s = "";
+			foreach (var v in winMusic) {
+				s += v;
+				s += ",";
+			}
+			targetUI.GetComponent<Text> ().text = s;
+		} else {
+			targetUI.GetComponent<Text> ().text = "";
+			levelNum++;
+			if (globalConfig.levelList [levelNum] != null) {
+				open (globalConfig.levelList [levelNum]);
+				refresh ();
+			}
+		}
+
+	}
 }

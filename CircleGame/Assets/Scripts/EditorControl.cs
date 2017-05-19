@@ -51,7 +51,8 @@ public class EditorControl : MonoBehaviour {
 	}
 
 	public void save (){
-		string file_path = Application.dataPath+"/Datas/"; 
+		string file_name = "Datas/"+levelName;
+
 		config = plate.GetComponent<Plate> ().config;
 		int n = config.Length;
 		string res = "";
@@ -66,17 +67,46 @@ public class EditorControl : MonoBehaviour {
 			res += json;
 			res += "$";
 		}
-		FileStream file_stream;  
-		string file_name = levelName;
-		file_stream=File.Open(file_path+"//"+file_name,FileMode.Create,FileAccess.Write);//打开现有 UTF-8 编码文本文件以进行读取  
-	
-		byte[]bytes = Encoding.UTF8.GetBytes(res);
-		foreach(byte b in bytes)
-		{
-			file_stream.WriteByte(b);        //逐个字节逐个字节追加入文本
-		}
-		file_stream.Flush();
-		file_stream.Close ();
+
+
+		FileInfo fileInfo;
+		string _data;
+		if(Application.platform == RuntimePlatform.IPhonePlayer)  
+		{  
+			fileInfo = new FileInfo(Application.dataPath + "/Raw/" + file_name);   
+			StreamWriter writer;   
+			fileInfo.Delete();      
+			writer = fileInfo.CreateText();   
+			writer.Write(res);  
+			writer.Close(); 
+		}  
+		//		else if(Application.platform == RuntimePlatform.Android)  
+		//		{  
+		////			fileInfo = new FileInfo(Application.streamingAssetsPath+file_name);  
+		////			StartCoroutine("LoadWWW");  
+		//		}  
+		else  
+		{  
+			fileInfo = new FileInfo(Application.dataPath + "/StreamingAssets/"+ file_name);   
+			StreamWriter writer;   
+			fileInfo.Delete();      
+			writer = fileInfo.CreateText();   
+			writer.Write(res);  
+			writer.Close();     
+		} 
+
+
+//		FileStream file_stream;  
+//		string file_name = levelName;
+//		file_stream=File.Open(file_path+"//"+file_name,FileMode.Create,FileAccess.Write);//打开现有 UTF-8 编码文本文件以进行读取  
+//	
+//		byte[]bytes = Encoding.UTF8.GetBytes(res);
+//		foreach(byte b in bytes)
+//		{
+//			file_stream.WriteByte(b);        //逐个字节逐个字节追加入文本
+//		}
+//		file_stream.Flush();
+//		file_stream.Close ();
 	}
 
 	public void recordLevel(string s){
