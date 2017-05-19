@@ -55,7 +55,6 @@ public class GlobalTool : MonoBehaviour {
 			Vector3 curPos = Input.mousePosition;
 			int index = getTouchSectorIndex (curPos);
 			if (index!=-1) {
-				Debug.Log (plate.GetComponent<Plate> ().config [6].r);
 				Color color = Camera.main.GetComponent<EditorControl> ().selectColor;
 				plate.GetComponent<Plate> ().config [index].r = color.r;
 				plate.GetComponent<Plate> ().config [index].g = color.g;

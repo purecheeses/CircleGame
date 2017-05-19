@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class globalConfig{
-	public static float radius = 3f;
+	public static float radius = 3.0f;
 }
 
 public struct SectorConfig {
@@ -66,11 +66,13 @@ public class Plate : MonoBehaviour {
 		circles = new GameObject[layerNum * seperateNum];
 		for (int i = 0; i < layerNum * seperateNum; i++) {
 			SectorConfig c = config [i];
-			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f));
+			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
 			circles [i].transform.Rotate (new Vector3(0, 0, c.rotation));
 			Vector3 t = circles [i].transform.position;
 			circles [i].transform.position = new Vector3 (t.x, t.y, c.radius);
 			circles [i].name = "sector_"+ i.ToString();
+//			Texture tx = Resources.Load ("PaperTexture") as Texture;
+//			circles [i].GetComponent<MeshRenderer> ().material .SetTexture ("_MainTex", tx);
 		}
 	}
 
