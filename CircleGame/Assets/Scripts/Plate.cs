@@ -270,4 +270,19 @@ public class Plate : MonoBehaviour {
 		}
 
 	}
+
+	public void changeColor(int[] sectors){
+		string s = winMusic [0];
+		string[] res = new string[4];
+		res [0] = s;
+		int n = globalConfig.colorMusicPair.Count ;
+		for (int i = 0; i < 3; i++) {
+			int nn = Random.Range (1, n + 1);
+//			s[i+1] = 
+		}
+
+		foreach(var i in sectors){
+			
+		}
+	}
 }

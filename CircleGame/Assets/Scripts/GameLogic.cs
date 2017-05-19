@@ -141,6 +141,8 @@ public class GameLogic
 			var c = _p.config [sectorIndex];
 			string res = colorToNote (new Color(c.r,c.g,c.b));
 			_p.getOneNoteDone (res);
+			int[] sectors =  getMatchedSectors ();
+//			_p.changeColor(sectors)
 		}
 	}
 
