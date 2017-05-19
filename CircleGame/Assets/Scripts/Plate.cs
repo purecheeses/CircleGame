@@ -93,6 +93,7 @@ public class Plate : MonoBehaviour {
 		sectors = new GameObject[layerNum * seperateNum];
 		for (int i = 0; i < layerNum * seperateNum; i++) {
 			SectorConfig c = config [i];
+//			Debug.Log ("wenkan dfsdjkfjdsf "+c.angle);
 			sectors [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
 			sectors [i].transform.Rotate (new Vector3(0, 0, c.rotation));
 			Vector3 t = sectors [i].transform.position;
@@ -134,8 +135,8 @@ public class Plate : MonoBehaviour {
 			for (int j = 0; j < seperateNum; j++) {
 				++n;
 				float radius = globalConfig.radius / layerNum * (i + 1);
-				float rot = 360 / seperateNum * j;
-				float angle = 360 / seperateNum;
+				float rot = 360f / seperateNum * j;
+				float angle = 360f / seperateNum;
 				config [n] = new SectorConfig (angle, rot, radius, Random.Range (0, 255), Random.Range (0, 255), Random.Range (0, 255));
 			}
 		}

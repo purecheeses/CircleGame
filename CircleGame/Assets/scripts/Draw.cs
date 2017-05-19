@@ -230,8 +230,22 @@ public class DrawTool : MonoBehaviour
 		vertices.Add(center);
 
 		for (int i = 1; i < pointAmount + 2; i++)
-		{
-			Vector3 pos = Quaternion.Euler(0f, 0f, -1*(-angle / 2 + eachAngle * (i - 1))) * forward * radius + center;
+		{	
+			
+			float d = -angle / 2 + eachAngle * (i - 1);
+			if (i == 1) {
+				d = -angle / 2;
+			} else if (i == pointAmount + 1) {
+				d = angle / 2;
+			}
+//
+//			if (i == 1 || i == pointAmount + 1) {
+//				float x = -angle / 2 + eachAngle * (i - 1);
+//				Debug.Log ("wenkan jjdjskd " + x);
+//			}
+
+
+			Vector3 pos = Quaternion.Euler(0f, 0f, -d) * forward * radius + center;
 			vertices.Add(pos);
 		}
 
