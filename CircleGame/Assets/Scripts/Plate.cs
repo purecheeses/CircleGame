@@ -70,7 +70,11 @@ public class Plate : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-//		drawGame ();
+		drawGame ();
+
+	}
+
+	void Start(){
 		open("1-1");
 	}
 	
@@ -165,12 +169,15 @@ public class Plate : MonoBehaviour {
 		string[] tmpS = myStr.Split ('$');
 		layerNum = int.Parse( tmpS [0]);
 		seperateNum = int.Parse (tmpS [1]);
-		GetComponent<Plate> ().layerNum = layerNum;
-		GetComponent<Plate> ().seperateNum = seperateNum;
-		GetComponent<Plate> ().config = new SectorConfig[layerNum * seperateNum];
+		layerNum = layerNum;
+		seperateNum = seperateNum;
+		config = new SectorConfig[layerNum * seperateNum];
+		Debug.Log (layerNum * seperateNum);
+		Debug.Log (tmpS.Length);
 		for (int i = 2; i < tmpS.Length - 1; i++) {
 			string json = tmpS [i];
-			GetComponent<Plate> ().config [i - 2] = JsonUtility.FromJson<SectorConfig> (json);
+//			Debug.Log (i - 2);
+			config [i - 2] = JsonUtility.FromJson<SectorConfig> (json);
 		}
 		GetComponent<Plate> ().refresh ();
 		//		plate.GetComponent<Plate>().

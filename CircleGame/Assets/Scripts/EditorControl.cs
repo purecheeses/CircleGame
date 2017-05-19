@@ -14,6 +14,7 @@ public class EditorControl : MonoBehaviour {
 	public GameObject levelInput;
 	public Color selectColor;
 	public GameObject plate;
+	public GameObject colorGroup;
 	public SectorConfig[] config = {
 		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
 		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
@@ -27,6 +28,26 @@ public class EditorControl : MonoBehaviour {
 		new SectorConfig(120f, 165f, 3.0f, 0,255,0),
 		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
 	};
+
+	void Start(){
+		int n = 1;
+		foreach (var dic in globalConfig.colorMusicPair) {
+			string s = dic.Key;
+			string[] ss = s.Split (',');
+			var t = colorGroup.transform.FindChild ("Button (" + n.ToString () + ")");
+//			Color color = new Color (int.Parse (ss [0]), int.Parse (ss [1]), int.Parse (ss [2]));
+//			ColorBlock cb = new ColorBlock();
+////			Debug.Log (color);
+//			cb.normalColor = color;
+//			cb.highlightedColor = Color.white;
+//			cb.pressedColor = Color.white;
+//			cb.disabledColor = Color.white;
+//			t.GetComponent<Button> ().colors = cb;
+//			t.GetComponent<Image> ().color = color;
+			t.GetComponentInChildren<Text> ().text = s;
+			n++;
+		}
+	}
 
 	public void save (){
 		string file_path = Application.dataPath+"/Datas/"; 
