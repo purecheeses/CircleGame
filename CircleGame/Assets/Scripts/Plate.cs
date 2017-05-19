@@ -162,15 +162,39 @@ public class Plate : MonoBehaviour {
 	}
 
 	public void open(string levelName){
-		FileStream file_stream;  
-		string file_path = Application.dataPath+"/Datas/"; 
-		string file_name = levelName;
-		file_stream = File.OpenRead (file_path + "//" + file_name);
-		int fsLen = (int)file_stream.Length;
-		byte[] heByte = new byte[fsLen];
-		int r = file_stream.Read(heByte, 0, heByte.Length);
-		string myStr = System.Text.Encoding.UTF8.GetString(heByte);	
-		string[] tmpS = myStr.Split ('$');
+		string file_name = "Datas/"+levelName;
+		FileInfo fileInfo;
+		string _data;
+		if(Application.platform == RuntimePlatform.IPhonePlayer)  
+		{  
+			fileInfo = new FileInfo(Application.dataPath + "/Raw/" + file_name);   
+			StreamReader r = fileInfo.OpenText();   
+			_data = r.ReadToEnd();   
+			r.Close();   
+		}  
+//		else if(Application.platform == RuntimePlatform.Android)  
+//		{  
+////			fileInfo = new FileInfo(Application.streamingAssetsPath+file_name);  
+////			StartCoroutine("LoadWWW");  
+//		}  
+		else  
+		{  
+			fileInfo = new FileInfo(Application.dataPath + "/StreamingAssets/"+ file_name);   
+			StreamReader r = fileInfo.OpenText();   
+			_data = r.ReadToEnd();   
+			r.Close();   
+		}     
+
+//		FileStream file_stream;  
+//		string file_path = Application.streamingAssetsPath+"/Datas/"; 
+//
+//		file_stream = File.OpenRead (file_path + "//" + file_name);
+//		int fsLen = (int)file_stream.Length;
+//		byte[] heByte = new byte[fsLen];
+//		int r = file_stream.Read(heByte, 0, heByte.Length);
+//		string myStr = System.Text.Encoding.UTF8.GetString(heByte);	
+//		string[] tmpS = myStr.Split ('$');
+		string[] tmpS = _data.Split('$');
 		layerNum = int.Parse( tmpS [0]);
 		seperateNum = int.Parse (tmpS [1]);
 		winCond = tmpS [2];
@@ -187,7 +211,7 @@ public class Plate : MonoBehaviour {
 		foreach (var s1 in sss) {
 			winMusic.Add (s1);
 		}
-		file_stream.Close ();
+//		file_stream.Close ();
 	}
 		
 	public void getOneNoteDone(string note){
@@ -196,4 +220,6 @@ public class Plate : MonoBehaviour {
 			Debug.Log (note);
 		}
 	}
+
+
 }
