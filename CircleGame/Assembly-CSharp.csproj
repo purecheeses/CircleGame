@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\ColorButtonControl.cs" />
      <Compile Include="Assets\Scripts\Draw.cs" />
      <Compile Include="Assets\Scripts\EditorControl.cs" />
+     <Compile Include="Assets\Scripts\GameLogic.cs" />
      <Compile Include="Assets\Scripts\GlobalTool.cs" />
      <Compile Include="Assets\Scripts\Math.cs" />
      <Compile Include="Assets\Scripts\Plate.cs" />

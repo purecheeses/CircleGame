@@ -40,7 +40,20 @@ public class Plate : MonoBehaviour {
 		new SectorConfig(120f, 165f, 3.0f, 0,255,0),
 		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
 	};
-	public GameObject[] circles;
+
+	public GameObject[] sectors;
+	public float[] sector_rotations; //记录所有扇形当前的旋转角度，后面就不用计算啦
+
+	public void setSectorRotation(int sectorIndex, float rotation)
+	{
+		sector_rotations [sectorIndex] = rotation;
+	}
+
+	public float getSectorRotation(int sectorIndex)
+	{
+		return sector_rotations [sectorIndex];
+	}
+		
 
 	// Use this for initialization
 	void Awake () {
@@ -63,20 +76,26 @@ public class Plate : MonoBehaviour {
 
 
 	void drawSector(){
-		circles = new GameObject[layerNum * seperateNum];
+		sectors = new GameObject[layerNum * seperateNum];
 		for (int i = 0; i < layerNum * seperateNum; i++) {
 			SectorConfig c = config [i];
-			circles [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
-			circles [i].transform.Rotate (new Vector3(0, 0, c.rotation));
-			Vector3 t = circles [i].transform.position;
-			circles [i].transform.position = new Vector3 (t.x, t.y, c.radius);
-			circles [i].name = "sector_"+ i.ToString();
+			sectors [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
+			sectors [i].transform.Rotate (new Vector3(0, 0, c.rotation));
+			Vector3 t = sectors [i].transform.position;
+			sectors [i].transform.position = new Vector3 (t.x, t.y, c.radius);
+			sectors [i].name = "sector_"+ i.ToString();
 //			Texture tx = Resources.Load ("PaperTexture") as Texture;
 //			circles [i].GetComponent<MeshRenderer> ().material .SetTexture ("_MainTex", tx);
 		}
 	}
 
 	void drawGame(){
+		int sectorCount = layerNum * seperateNum;
+		sector_rotations = new float[sectorCount];
+		for (int i = 0; i < sectorCount; i++) {
+			sector_rotations [i] = config [i].rotation;
+		}
+
 		drawFrontier ();
 		drawSector ();
 	}
