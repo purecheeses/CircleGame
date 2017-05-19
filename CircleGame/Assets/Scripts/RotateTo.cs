@@ -22,7 +22,6 @@ public class RotateTo : MonoBehaviour
 	void Update()
 	{
 		if (_done) {
-			Debug.Log ("Update");
 			Destroy (gameObject.GetComponent<RotateTo> ());
 			return;
 		}

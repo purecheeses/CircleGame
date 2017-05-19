@@ -167,7 +167,7 @@ public class Plate : MonoBehaviour {
 	public void alignSector(int circleIndex, int sectorIndex)
 	{
 
-		Debug.Log ("wenkan alignSector");
+//		Debug.Log ("wenkan alignSector");
 		_enable_touch = false;
 		float rotation = sector_rotations [sectorIndex];
 		rotation = rotation % 360;
@@ -241,10 +241,11 @@ public class Plate : MonoBehaviour {
 //		file_stream.Close ();
 	}
 		
-	public void getOneNoteDone(string note){
+	public void getOneNoteDone(string note,int[] sectors){
 		if (winMusic [0] != null && winMusic[0] == note ) {
 			winMusic.RemoveAt (0);
 			refreshTargetUI ();
+			changeColor (sectors);
 		}
 	}
 
@@ -272,17 +273,57 @@ public class Plate : MonoBehaviour {
 	}
 
 	public void changeColor(int[] sectors){
+		if (winMusic.Count == 0)
+			return;
 		string s = winMusic [0];
+		string colorS="";
 		string[] res = new string[4];
-		res [0] = s;
 		int n = globalConfig.colorMusicPair.Count ;
+		List<string> list = new List<string> ();
+		foreach (var i in globalConfig.colorMusicPair) {
+			list.Add (i.Key);
+			if (i.Value == s) {
+				colorS = i.Key;
+			}
+			if (s == i.Value) {
+				res [0] = i.Key;
+			}
+		}
 		for (int i = 0; i < 3; i++) {
 			int nn = Random.Range (1, n + 1);
-//			s[i+1] = 
+			res [i + 1] = list [nn - 1];
 		}
-
+		string[] css = colorS.Split (',');
 		foreach(var i in sectors){
-			
+			int circleNum = (int)(i / seperateNum);
+			bool isHasColor = false;
+			for (int j = 0; j < seperateNum; j++) {
+				int num = circleNum * seperateNum;
+				if (num + j != i) {
+					float r = config [num + j].r;
+					float g = config [num + j].g;
+					float b = config [num + j].b;
+					if (float.Parse(css [0]) == r && float.Parse(css [1]) == g && float.Parse(css [2]) == b) {
+						isHasColor = true;
+					}
+				}
+			}
+			if (isHasColor) {
+				int index = Random.Range (1, 4);
+				string coolorS = res [index];
+				string[] coolorss = coolorS.Split (',');
+				config [i].r = float.Parse(coolorss [0]);
+				config [i].g = float.Parse(coolorss [1]);
+				config [i].b = float.Parse(coolorss [2]);
+			}else{
+				string coolorS = res [0];
+				Debug.Log (coolorS);
+				string[] coolorss = coolorS.Split (',');
+				config [i].r = float.Parse(coolorss [0]);
+				config [i].g = float.Parse(coolorss [1]);
+				config [i].b = float.Parse(coolorss [2]);
+			}
 		}
+		refresh ();
 	}
 }
