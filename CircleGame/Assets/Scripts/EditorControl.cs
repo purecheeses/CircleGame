@@ -109,7 +109,9 @@ public class EditorControl : MonoBehaviour {
 		string myStr = System.Text.Encoding.UTF8.GetString(heByte);	
 		string[] tmpS = myStr.Split ('$');
 		layerNum = int.Parse( tmpS [0]);
+		layerInput.GetComponent<InputField> ().text = tmpS [0];
 		seperateNum = int.Parse (tmpS [1]);
+		seperateInput.GetComponent<InputField> ().text = tmpS [1];
 		winCondObject.GetComponent<InputField> ().text = tmpS [2];
 		plate.GetComponent<Plate> ().layerNum = layerNum;
 		plate.GetComponent<Plate> ().seperateNum = seperateNum;
@@ -119,6 +121,7 @@ public class EditorControl : MonoBehaviour {
 			plate.GetComponent<Plate> ().config [i - 3] = JsonUtility.FromJson<SectorConfig> (json);
 		}
 		plate.GetComponent<Plate> ().refresh ();
+		file_stream.Close ();
 //		plate.GetComponent<Plate>().
 	}
 

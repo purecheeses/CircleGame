@@ -6,7 +6,7 @@ public class GameLogic
 	private int[] current_sector_indexs;
 	Plate _p;
 	float _pointer = 0.0f;
-
+	public string[] winCond;
 	public int circleCount
 	{
 		get {
@@ -106,10 +106,15 @@ public class GameLogic
 	private void onEnterSector(int sectorIndex)
 	{
 		var c = _p.config [sectorIndex];
+		string res = colorToNote (new Color(c.r,c.g,c.b));
+		Camera.main.GetComponent<AudioControl> ().Play (res);
+//		Debug.Log ("wenkan onEneterSector "+sectorIndex.ToString());
+	}
+
+	string colorToNote(Color c){
 		string s = c.r + "," + c.g + "," + c.b;
 		string res = globalConfig.colorMusicPair [s];
-		Camera.main.GetComponent<AudioControl> ().Play (res);
-		Debug.Log ("wenkan onEneterSector "+sectorIndex.ToString());
+		return res;
 	}
 
 	private void onSlideThroughSector(int sectorIndex)
@@ -133,6 +138,9 @@ public class GameLogic
 				int thisSectorIndex = calcPointedSectorIndex (i);
 				_p.alignSector (i, thisSectorIndex);
 			}
+			var c = _p.config [sectorIndex];
+			string res = colorToNote (new Color(c.r,c.g,c.b));
+			_p.getOneNoteDone (res);
 		}
 	}
 

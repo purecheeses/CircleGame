@@ -54,6 +54,7 @@ public class Plate : MonoBehaviour {
 		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
 	};
 	public string winCond;
+	public List<string> winMusic;
 	public GameObject[] sectors;
 	public float[] sector_rotations; //记录所有扇形当前的旋转角度，后面就不用计算啦
 
@@ -75,7 +76,9 @@ public class Plate : MonoBehaviour {
 	}
 
 	void Start(){
-//		open("1-1");
+		if (Camera.main.GetComponent<EditorControl> () == null) {
+			open("1-1");
+		}
 	}
 	
 	// Update is called once per frame
@@ -180,5 +183,17 @@ public class Plate : MonoBehaviour {
 		}
 		GetComponent<Plate> ().refresh ();
 		//		plate.GetComponent<Plate>().
+		string[] sss = winCond.Split(',');
+		foreach (var s1 in sss) {
+			winMusic.Add (s1);
+		}
+		file_stream.Close ();
+	}
+		
+	public void getOneNoteDone(string note){
+		if (winMusic [0] != null && winMusic[0] == note ) {
+			winMusic.RemoveAt (0);
+			Debug.Log (note);
+		}
 	}
 }
