@@ -15,6 +15,7 @@ public class EditorControl : MonoBehaviour {
 	public Color selectColor;
 	public GameObject plate;
 	public GameObject colorGroup;
+	public GameObject winCondObject;
 	public SectorConfig[] config = {
 		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
 		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
@@ -58,6 +59,8 @@ public class EditorControl : MonoBehaviour {
 		res += "$";
 		res += seperateNum.ToString ();
 		res += "$";
+		res += winCondObject.GetComponent<InputField> ().text;
+		res += "$" ;
 		for (int i = 0; i < n; i++) {
 			string json = JsonUtility.ToJson (config [i]);
 			res += json;
@@ -65,7 +68,6 @@ public class EditorControl : MonoBehaviour {
 		}
 		FileStream file_stream;  
 		string file_name = levelName;
-		Debug.Log (file_name);
 		file_stream=File.Open(file_path+"//"+file_name,FileMode.Create,FileAccess.Write);//打开现有 UTF-8 编码文本文件以进行读取  
 	
 		byte[]bytes = Encoding.UTF8.GetBytes(res);
@@ -108,12 +110,13 @@ public class EditorControl : MonoBehaviour {
 		string[] tmpS = myStr.Split ('$');
 		layerNum = int.Parse( tmpS [0]);
 		seperateNum = int.Parse (tmpS [1]);
+		winCondObject.GetComponent<InputField> ().text = tmpS [2];
 		plate.GetComponent<Plate> ().layerNum = layerNum;
 		plate.GetComponent<Plate> ().seperateNum = seperateNum;
 		plate.GetComponent<Plate> ().config = new SectorConfig[layerNum * seperateNum];
-		for (int i = 2; i < tmpS.Length - 1; i++) {
+		for (int i = 3; i < tmpS.Length - 1; i++) {
 			string json = tmpS [i];
-			plate.GetComponent<Plate> ().config [i - 2] = JsonUtility.FromJson<SectorConfig> (json);
+			plate.GetComponent<Plate> ().config [i - 3] = JsonUtility.FromJson<SectorConfig> (json);
 		}
 		plate.GetComponent<Plate> ().refresh ();
 //		plate.GetComponent<Plate>().

@@ -53,7 +53,7 @@ public class Plate : MonoBehaviour {
 		new SectorConfig(120f, 165f, 3.0f, 0,255,0),
 		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
 	};
-
+	public string winCond;
 	public GameObject[] sectors;
 	public float[] sector_rotations; //记录所有扇形当前的旋转角度，后面就不用计算啦
 
@@ -75,7 +75,7 @@ public class Plate : MonoBehaviour {
 	}
 
 	void Start(){
-		open("1-1");
+//		open("1-1");
 	}
 	
 	// Update is called once per frame
@@ -170,15 +170,13 @@ public class Plate : MonoBehaviour {
 		string[] tmpS = myStr.Split ('$');
 		layerNum = int.Parse( tmpS [0]);
 		seperateNum = int.Parse (tmpS [1]);
+		winCond = tmpS [2];
 		layerNum = layerNum;
 		seperateNum = seperateNum;
 		config = new SectorConfig[layerNum * seperateNum];
-		Debug.Log (layerNum * seperateNum);
-		Debug.Log (tmpS.Length);
-		for (int i = 2; i < tmpS.Length - 1; i++) {
+		for (int i = 3; i < tmpS.Length - 1; i++) {
 			string json = tmpS [i];
-//			Debug.Log (i - 2);
-			config [i - 2] = JsonUtility.FromJson<SectorConfig> (json);
+			config [i - 3] = JsonUtility.FromJson<SectorConfig> (json);
 		}
 		GetComponent<Plate> ().refresh ();
 		//		plate.GetComponent<Plate>().
