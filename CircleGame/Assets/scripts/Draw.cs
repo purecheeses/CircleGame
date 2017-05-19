@@ -124,7 +124,60 @@ public class DrawTool : MonoBehaviour
 
 		int triangleAmount = vertices.Count - 2;
 		triangles = new int[3 * triangleAmount];
+		//根据三角形的个数，来计算绘制三角形的顶点顺序（索引）      
+		//顺序必须为顺时针或者逆时针      
+		for (int i = 0; i < triangleAmount; i++)
+		{
+			triangles[3 * i] = 0;//固定第一个点      
+			triangles[3 * i + 1] = i + 1;
+			triangles[3 * i + 2] = i + 2;
+		}
+			
+			go = new GameObject ("mesh");
+			go.transform.position = new Vector3 (0, 0, 0);//让绘制的图形上升一点，防止被地面遮挡  
+			mf = go.AddComponent<MeshFilter> ();
+			mr = go.AddComponent<MeshRenderer> ();
+////			shader = Shader.Find ("Unlit/Color");
+//			shader = Shader.Find ("Mobile/Diffuse");
+			go.transform.parent = t;
+		int num = vertices.Count;
+		Vector2[] newUV = new Vector2[num];
+		Debug.Log (t.transform.rotation);
+		for (int i = 0; i < num; i++) {
+			float radius = vertices [i].magnitude;
+			float ratio = radius / globalConfig.radius;
+			if (ratio > 1) {
+				ratio = 1.0f;
+			}
+//			Debug.Log (ratio);
+			newUV [i] = new Vector2 (vertices [i].x/globalConfig.radius * 0.5f+0.5f, vertices [i].y/globalConfig.radius * 0.5f+0.5f)*1f;
+//			Debug.Log (vertices[i]);
+//			Debug.Log(newUV[i]);
+//			Debug.Log (vertices[i]*ratio);
+		}
+		mesh.vertices = vertices.ToArray();
+		mesh.triangles = triangles;
+		mesh.uv = newUV;
+		mf.mesh = mesh;
+		Material mat = Resources.Load ("CustomMaterial") as Material;
+		mr.material = mat;
+//		mr.material.SetColor("_IlluminCol",c);
 
+		return go;
+	}
+
+	private static GameObject CreateMesh(List<Vector3> vertices,Transform t, Color c,float rotation)
+	{
+
+		GameObject go;
+		MeshFilter mf; 
+		MeshRenderer mr;
+		Shader shader;
+		int[] triangles;
+		Mesh mesh = new Mesh();
+
+		int triangleAmount = vertices.Count - 2;
+		triangles = new int[3 * triangleAmount];
 		//根据三角形的个数，来计算绘制三角形的顶点顺序（索引）      
 		//顺序必须为顺时针或者逆时针      
 		for (int i = 0; i < triangleAmount; i++)
@@ -134,33 +187,40 @@ public class DrawTool : MonoBehaviour
 			triangles[3 * i + 2] = i + 2;
 		}
 
-//		if (t.FindChild("mesh") == null || t.FindChild("mesh").gameObject == null) {
-			go = new GameObject ("mesh");
-			go.transform.position = new Vector3 (0, 0, 0);//让绘制的图形上升一点，防止被地面遮挡  
-			mf = go.AddComponent<MeshFilter> ();
-			mr = go.AddComponent<MeshRenderer> ();
-			shader = Shader.Find ("Unlit/Color");
-			go.transform.parent = t;
-//		} else {
-//			go = t.FindChild ("mesh").gameObject;
-//			mf = go.GetComponent<MeshFilter> ();
-//			mr = go.GetComponent<MeshRenderer> ();
-//			shader = mr.material.shader;
-//		}
+		go = new GameObject ("mesh");
+		go.transform.position = new Vector3 (0, 0, 0);//让绘制的图形上升一点，防止被地面遮挡  
+		mf = go.AddComponent<MeshFilter> ();
+		mr = go.AddComponent<MeshRenderer> ();
+		////			shader = Shader.Find ("Unlit/Color");
+		//			shader = Shader.Find ("Mobile/Diffuse");
+		go.transform.parent = t;
+		int num = vertices.Count;
+		Vector2[] newUV = new Vector2[num];
+		for (int i = 0; i < num; i++) {
+			float radius = vertices [i].magnitude;
+			float ratio = radius / globalConfig.radius;
+			if (ratio > 1) {
+				ratio = 1.0f;
+			}
+			//			Debug.Log (ratio);
+			newUV [i] = new Vector2 (vertices [i].x/globalConfig.radius * 0.5f, vertices [i].y/globalConfig.radius * 0.5f)*1f;
+			newUV [i] = Quaternion.AngleAxis (rotation, Vector3.forward) * newUV [i];
+			newUV [i] += new Vector2 (0.5f, 0.5f);
+		}
 		mesh.vertices = vertices.ToArray();
 		mesh.triangles = triangles;
-
+		mesh.uv = newUV;
 		mf.mesh = mesh;
-		mr.material.shader = shader;
-		mr.material.color = c;
+		Material mat = Resources.Load ("CustomMaterial") as Material;
+		mr.material = mat;
+		mr.material.SetColor("_IlluminCol",c);
 
 		return go;
 	}
 
 
-
 	//绘制实心扇形    
-	public static GameObject DrawSectorSolid(Transform t, Vector3 center, float angle, float radius, Color c)
+	public static GameObject DrawSectorSolid(Transform t, Vector3 center, float angle, float radius, Color c,float rotation)
 	{
 		int pointAmount = 100;//点的数目，值越大曲线越平滑    
 		float eachAngle = angle / pointAmount;
@@ -177,7 +237,7 @@ public class DrawTool : MonoBehaviour
 
 
 
-		GameObject ret = CreateMesh(vertices,t, c);
+		GameObject ret = CreateMesh(vertices,t, c,rotation);
 
 //		DrawSector (ret.transform, center, angle, radius);
 
