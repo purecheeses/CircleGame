@@ -29,8 +29,29 @@ public class TouchHandler
 	private float _cumulative_angle = 0.0f;
 
 
+	#if UNITY_EDITOR
+	private Vector3 last_mouse_pos;
+	#endif
+
 	public void onUpdate()
 	{
+
+		#if UNITY_EDITOR
+		if (Input.GetMouseButtonDown(0)) {
+			last_mouse_pos = Input.mousePosition;
+			touchBeganHandler(last_mouse_pos);
+		} else if (Input.GetMouseButton(0)) {
+			Vector3 current_pos = Input.mousePosition;
+			touchMoveHandler(Input.mousePosition, current_pos-last_mouse_pos);
+			last_mouse_pos = current_pos;
+
+		} else if (Input.GetMouseButtonUp(0)){
+			touchEndHandler(Input.mousePosition);
+		}
+
+		#endif
+
+		#if UNITY_IPHONE
 		if (Input.touchCount > 1 || Input.touchCount <= 0)
 		{
 			return;
@@ -50,6 +71,8 @@ public class TouchHandler
 		} else if (t.phase == TouchPhase.Stationary) {
 			touchStationaryHandler (t.position);
 		}
+		#endif
+
 
 	}
 

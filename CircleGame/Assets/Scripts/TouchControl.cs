@@ -9,12 +9,19 @@ public class TouchControl : MonoBehaviour {
 	int layerNum;
 	// Use this for initialization
 	SectorConfig[] config;
+	float[] radiusConfig;
 	GameObject[] circles;
 	void Start () {
 		layerNum = GetComponent<Plate> ().layerNum;
-		last_rotations = new float[layerNum];
 		config = GetComponent<Plate> ().config;
 		circles = GetComponent<Plate> ().circles;
+		int sectorNum = GetComponent<Plate> ().seperateNum;
+		last_rotations = new float[sectorNum*layerNum];
+		radiusConfig = new float[layerNum];
+		for (int i = 0; i < layerNum; i++) {
+			Debug.Log (config [i * sectorNum].radius);
+			radiusConfig [i] = config [i * sectorNum].radius;
+		}
 		this.touchHandler = new TouchHandler (Camera.main.WorldToScreenPoint(transform.position));
 		this.touchHandler.onTouchBegan += onTouchBegin;
 		this.touchHandler.onTouchEnd += onTouchEnd;
@@ -31,11 +38,13 @@ public class TouchControl : MonoBehaviour {
 		Vector3 touchPos = Camera.main.ScreenToWorldPoint (new Vector3 (pos.x, pos.y, 0));
 		Vector3 center = transform.position;
 		float distance = Vector2.Distance (new Vector2 (touchPos.x, touchPos.y), new Vector2 (center.x, center.y));
-
-		int ret = 3;
+		int ret = layerNum - 1;
 		for (int i = 0; i < layerNum; i++) {
-			if (distance < config [i].radius) {
-				ret = i + 1;
+//			Debug.Log (distance+" "+radiusConfig [i]);
+
+			if (distance < radiusConfig [i]) {
+				ret = i;
+				return ret;
 			}
 		}
 		return ret;
@@ -49,9 +58,10 @@ public class TouchControl : MonoBehaviour {
 
 	public void onTouchBegin(Vector2 startPos)
 	{
-		Debug.Log ("wenkan Main on touch begin");
+//		Debug.Log ("wenkan Main on touch begin");
 		circleIndex = getTouchCircleIndex (startPos);
-		int startIndex = (circleIndex - 1) * layerNum;
+//		Debug.Log ("wenkan " + circleIndex.ToString ());
+		int startIndex = circleIndex * layerNum;
 
 		for (int i = startIndex; i < startIndex + layerNum; i++) {
 			last_rotations [i] = circles [i].transform.rotation.eulerAngles.z;
@@ -61,9 +71,9 @@ public class TouchControl : MonoBehaviour {
 
 	public void onTouchMove(Vector2 curPos, float angle)
 	{
-		Debug.Log ("wenkan "+curPos.ToString()+" "+angle.ToString());
+//		Debug.Log ("wenkan "+curPos.ToString()+" "+angle.ToString());
 
-		int startIndex = (circleIndex - 1) * layerNum;
+		int startIndex = circleIndex * layerNum;
 		for (int i = startIndex; i < startIndex + layerNum; i++) {
 			float last_rotation = last_rotations [i];
 			circles [i].transform.rotation = Quaternion.Euler (new Vector3 (0, 0, last_rotation - angle));
@@ -72,8 +82,8 @@ public class TouchControl : MonoBehaviour {
 
 	public void onTouchEnd(Vector2 curPos)
 	{
-		Debug.Log ("wenkan Main on touch end");
-		int startIndex = (circleIndex - 1) * layerNum;
+//		Debug.Log ("wenkan Main on touch end");
+		int startIndex = circleIndex * layerNum;
 		for (int i = startIndex; i < startIndex + layerNum; i++) {
 			last_rotations [i] = circles [i].transform.rotation.eulerAngles.z;
 		}
