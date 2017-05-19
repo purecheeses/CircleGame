@@ -161,5 +161,14 @@ public class GameLogic
 		}
 		return true;
 	}
+
+	public int[] getMatchedSectors()
+	{
+		int[] ret = new int[circleCount];
+		for (int i = 0; i < circleCount; i++) {
+			ret[i] = calcPointedSectorIndex(circleIndex:);
+		}
+		return ret;
+	}
 }
 

@@ -76,7 +76,7 @@ public class TouchControl : MonoBehaviour {
 		int startIndex = circleIndex * sectorNum;
 
 		for (int i = startIndex; i < startIndex + sectorNum; i++) {
-			Debug.Log (i);
+//			Debug.Log (i);
 			last_rotations [i] = sectors [i].transform.rotation.eulerAngles.z;
 			GetComponent<Plate> ().setSectorRotation (i, last_rotations [i]);
 		}

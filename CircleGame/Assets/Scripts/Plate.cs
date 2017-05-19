@@ -17,7 +17,7 @@ public static class globalConfig{
 		{"99,125,233","xi"},
 	};
 	public static List<string> levelList = new List<string> () {
-		"1-1", "1-2", "1-3",
+		"2-1", "1-2", "1-3",
 	};
 }
 
@@ -81,7 +81,7 @@ public class Plate : MonoBehaviour {
 
 	void Start(){
 		if (Camera.main.GetComponent<EditorControl> () == null) {
-			open("1-1");
+			open("2-1");
 		}
 	}
 	
@@ -137,7 +137,9 @@ public class Plate : MonoBehaviour {
 	public void refresh(){
 		clean ();
 		drawGame ();
-		GetComponent<TouchControl> ().reset ();
+		if (GetComponent<TouchControl> () != null){
+			GetComponent<TouchControl> ().reset ();
+		}
 	}
 
 	public void makeNewData(){
