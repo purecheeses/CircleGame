@@ -32,11 +32,11 @@ public class Plate : MonoBehaviour {
 		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
 		new SectorConfig(120f, 240f, 1.0f, 0,0,255),
 
-		new SectorConfig(120f, 25f, 2.0f, 255,2,0),
-		new SectorConfig(120f, 145f, 2.0f, 0,255,2),
+		new SectorConfig(120f, 25f, 2.0f, 255,0,0),
+		new SectorConfig(120f, 145f, 2.0f, 0,255,0),
 		new SectorConfig(120f, 265f, 2.0f, 0,0,255),
 
-		new SectorConfig(120f, 45f, 3.0f, 255,2,0),
+		new SectorConfig(120f, 45f, 3.0f, 255,0,0),
 		new SectorConfig(120f, 165f, 3.0f, 0,255,0),
 		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
 	};
@@ -126,4 +126,18 @@ public class Plate : MonoBehaviour {
 			}
 		}
 	}
+
+	public void alignSector(int circleIndex, int sectorIndex)
+	{
+		float rotation = sector_rotations [sectorIndex];
+		rotation = rotation % 360;
+		int startIndex = circleIndex * seperateNum;
+		for (int i = startIndex; i < startIndex + seperateNum; i++) {
+			float last_rotation = sector_rotations [i];
+			sectors [i].transform.rotation = Quaternion.Euler (new Vector3 (0, 0, last_rotation - rotation));
+			GetComponent<Plate> ().setSectorRotation (i, last_rotation - rotation);
+		}
+	}
+
+
 }

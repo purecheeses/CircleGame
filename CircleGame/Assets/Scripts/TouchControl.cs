@@ -7,6 +7,7 @@ public class TouchControl : MonoBehaviour {
 	float[] last_rotations;
 	int circleIndex;
 	int layerNum;
+	int sectorNum;
 	// Use this for initialization
 	SectorConfig[] config;
 	float[] radiusConfig;
@@ -18,7 +19,7 @@ public class TouchControl : MonoBehaviour {
 		layerNum = GetComponent<Plate> ().layerNum;
 		config = GetComponent<Plate> ().config;
 		sectors = GetComponent<Plate> ().sectors;
-		int sectorNum = GetComponent<Plate> ().seperateNum;
+		sectorNum = GetComponent<Plate> ().seperateNum;
 		last_rotations = new float[sectorNum*layerNum];
 		radiusConfig = new float[layerNum];
 		for (int i = 0; i < layerNum; i++) {
@@ -66,9 +67,9 @@ public class TouchControl : MonoBehaviour {
 //		Debug.Log ("wenkan Main on touch begin");
 		circleIndex = getTouchCircleIndex (startPos);
 //		Debug.Log ("wenkan " + circleIndex.ToString ());
-		int startIndex = circleIndex * layerNum;
+		int startIndex = circleIndex * sectorNum;
 
-		for (int i = startIndex; i < startIndex + layerNum; i++) {
+		for (int i = startIndex; i < startIndex + sectorNum; i++) {
 			last_rotations [i] = sectors [i].transform.rotation.eulerAngles.z;
 			GetComponent<Plate> ().setSectorRotation (i, last_rotations [i]);
 		}
@@ -79,8 +80,8 @@ public class TouchControl : MonoBehaviour {
 	{
 //		Debug.Log ("wenkan "+curPos.ToString()+" "+angle.ToString());
 
-		int startIndex = circleIndex * layerNum;
-		for (int i = startIndex; i < startIndex + layerNum; i++) {
+		int startIndex = circleIndex * sectorNum;
+		for (int i = startIndex; i < startIndex + sectorNum; i++) {
 			float last_rotation = last_rotations [i];
 			sectors [i].transform.rotation = Quaternion.Euler (new Vector3 (0, 0, last_rotation - angle));
 			GetComponent<Plate> ().setSectorRotation (i, last_rotation - angle);
@@ -91,13 +92,17 @@ public class TouchControl : MonoBehaviour {
 	public void onTouchEnd(Vector2 curPos)
 	{
 //		Debug.Log ("wenkan Main on touch end");
-		int startIndex = circleIndex * layerNum;
-		for (int i = startIndex; i < startIndex + layerNum; i++) {
+		int startIndex = circleIndex * sectorNum;
+		for (int i = startIndex; i < startIndex + sectorNum; i++) {
 			last_rotations [i] = sectors [i].transform.rotation.eulerAngles.z;
 			GetComponent<Plate> ().setSectorRotation (i, last_rotations [i]);
 		}
+		logic.onLeavePlate (circleIndex);
+
+
 		circleIndex = -1;
 	}
+
 
 	public void onTouchStationary (Vector2 curPos)
 	{

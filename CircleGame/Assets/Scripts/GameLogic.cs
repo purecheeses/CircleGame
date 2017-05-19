@@ -54,6 +54,9 @@ public class GameLogic
 	private void initGame()
 	{
 		current_sector_indexs = new int[circleCount];
+		for (int i = 0; i < circleCount; i++) {
+			current_sector_indexs [i] = calcPointedSectorIndex (i);
+		}
 	}
 
 	private int calcPointedSectorIndex(int circleIndex)
@@ -107,10 +110,44 @@ public class GameLogic
 
 	private void onSlideThroughSector(int sectorIndex)
 	{
-		Debug.Log ("wenkan onSlideThroughSector "+sectorIndex.ToString());
+//		Debug.Log ("wenkan onSlideThroughSector "+sectorIndex.ToString());
 	}
 
 
+	public void onLeavePlate(int circleIndex)
+	{
+		int sectorIndex = calcPointedSectorIndex (circleIndex);
+		float rotation = _p.getSectorRotation (sectorIndex);
+		rotation = rotation % 360;
+		if (rotation > 180) {
+			rotation = rotation - 180;
+		}
+		bool isMatch = checkMatch ();
 
+		if (isMatch) {
+			for (int i = 0; i < circleCount; i++) {
+				int thisSectorIndex = calcPointedSectorIndex (i);
+				_p.alignSector (i, thisSectorIndex);
+			}
+		}
+	}
+
+	public bool checkMatch()
+	{	
+//		Debug.Log ("开始");
+		Color c = new Color (0, 0, 0);
+		for (int i = 0; i < circleCount; i++) {
+			int sectorIndex = currentSector (i);
+//			Debug.Log (_p.config [sectorIndex].r +" "+ _p.config [sectorIndex].g+" "+_p.config [sectorIndex].b);
+			if (i == 0) {
+				c.r = _p.config [sectorIndex].r;
+				c.g = _p.config [sectorIndex].g;
+				c.b = _p.config [sectorIndex].b;
+			} else if (c.r != _p.config [sectorIndex].r || c.g != _p.config [sectorIndex].g || c.b != _p.config [sectorIndex].b){
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
