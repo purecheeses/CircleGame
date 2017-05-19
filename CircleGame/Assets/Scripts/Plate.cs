@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public static class globalConfig{
 	public static float radius = 3.0f;
 	public static Dictionary<string,string> colorMusicPair = new Dictionary<string, string> (){
-		{"102,102,211","do"},
-		{"99,186,217","re"},
-		{"126,200,110","mi"},
-		{"250,246,84","fa"},
-		{"249,169,74","so"},
-		{"247,87,131","la"},
-		{"99,125,233","xi"},
+		{"245,138,172","do"},
+		{"45,197,201","re"},
+		{"243,185,28","mi"},
+		{"205,166,228","fa"},
+		{"242,109,109","so"},
+		{"185,122,223","la"},
+		{"105,137,210","xi"},
 	};
 	public static List<string> levelList = new List<string> () {
 		"1-1", "1-2", "1-3",
@@ -148,7 +148,7 @@ public class Plate : MonoBehaviour {
 				float radius = globalConfig.radius / layerNum * (i + 1);
 				float rot = 360f / seperateNum * j;
 				float angle = 360f / seperateNum;
-				config [n] = new SectorConfig (angle, rot, radius, Random.Range (0, 255), Random.Range (0, 255), Random.Range (0, 255));
+				config [n] = new SectorConfig (angle, rot, radius, 255, 255, 255);
 			}
 		}
 	}

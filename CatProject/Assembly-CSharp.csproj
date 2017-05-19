@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\FitCamera.cs" />
+     <Compile Include="Assets\Scripts\AnotherCat.cs" />
      <Compile Include="Assets\Scripts\Cat.cs" />
+     <Compile Include="Assets\Scripts\CatConfig.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
