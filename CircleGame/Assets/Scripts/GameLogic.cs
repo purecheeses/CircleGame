@@ -64,27 +64,36 @@ public class GameLogic
 			float start_angle = base_angle - _p.config [i].angle / 2;
 			float end_angle = base_angle + _p.config [i].angle / 2;
 
+//			Debug.Log (string.Format("wenkan1111 startIndex {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
+//				startIndex, base_angle, start_angle, end_angle, pointer));
+
 			if (start_angle >= 360 || end_angle >= 360) {
 				start_angle -= 360;
 				end_angle -= 360;
+			} else if (start_angle <= -360 || end_angle <= -360) {
+				start_angle += 360;
+				end_angle += 360;
 			}
 
-			Debug.Log (string.Format("wenkan startIndex {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
-				startIndex, base_angle, start_angle, end_angle, pointer));
+//			Debug.Log (string.Format("wenkan2222 startIndex {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
+//				startIndex, base_angle, start_angle, end_angle, pointer));
 			if (pointer > start_angle && pointer <= end_angle) {
 				return i;
 			}
 		}
-		Debug.Log ("wenkan XXXXXXXXXXXXXXXXXXXXXXXXX");
-		return 0;
+//		Debug.Log ("wenkan XXXXXXXXXXXXXXXXXXXXXXXXX");
+		return -1;
 	}
 
 
-	public void onPlatRotate(int circleIndex)
+	public void onPlateRotate(int circleIndex)
 	{
 		int calcedIndex = calcPointedSectorIndex (circleIndex);
 		int lastIndex = currentSector (circleIndex);
+
+//		Debug.Log (string.Format("wenkan {0}, {1}", calcedIndex, lastIndex));
 		if (calcedIndex != lastIndex) {
+			setCurrentSector (circleIndex, calcedIndex);
 			onEnterSector (calcedIndex);
 		} else {
 			onSlideThroughSector (calcedIndex);

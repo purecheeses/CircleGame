@@ -85,7 +85,7 @@ public class TouchControl : MonoBehaviour {
 			sectors [i].transform.rotation = Quaternion.Euler (new Vector3 (0, 0, last_rotation - angle));
 			GetComponent<Plate> ().setSectorRotation (i, last_rotation - angle);
 		}
-		logic.onPlatRotate (circleIndex);
+		logic.onPlateRotate (circleIndex);
 	}
 
 	public void onTouchEnd(Vector2 curPos)
