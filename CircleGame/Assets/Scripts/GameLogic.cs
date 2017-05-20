@@ -72,8 +72,8 @@ public class GameLogic
 			float end_angle = base_angle + _p.config [i].angle / 2;
 
 
-			Debug.Log (string.Format("wenkan1111 index {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
-				i, base_angle, start_angle, end_angle, pointer));
+//			Debug.Log (string.Format("wenkan1111 index {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
+//				i, base_angle, start_angle, end_angle, pointer));
 //			int pivot = 360 + pointer;
 //			int pivot = 360;
 //			if (start_angle >= pivot || end_angle >= pivot) {
@@ -150,7 +150,7 @@ public class GameLogic
 
 		if (isMatch) {
 			
-			alignSectors (circleIndex);
+			alignSectors (sectorIndex);
 
 
 		}
@@ -196,7 +196,7 @@ public class GameLogic
 		Color c = new Color (0, 0, 0);
 		for (int i = 0; i < circleCount; i++){
 			int sectorIndex = currentSector (i);
-			Debug.Log (string.Format("circle {0} sector {1}", i, sectorIndex));
+//			Debug.Log (string.Format("circle {0} sector {1}", i, sectorIndex));
 //			Debug.Log (_p.config [sectorIndex].r +" "+ _p.config [sectorIndex].g+" "+_p.config [sectorIndex].b);
 			if (i == 0) {
 				c.r = _p.config [sectorIndex].r;
