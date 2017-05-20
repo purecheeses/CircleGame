@@ -9,22 +9,22 @@ using UnityEngine.SceneManagement;
 public static class globalConfig{
 	public static float radius = 5.0f;
 	public static Dictionary<string,string> colorMusicPair = new Dictionary<string, string> (){
-		{"245,138,172","do"},
-		{"45,197,201","re"},
-		{"243,185,28","mi"},
-		{"205,166,228","fa"},
-		{"242,109,109","so"},
-		{"185,122,223","la"},
-		{"105,137,210","xi"},
+		{"242,109,109","do"},
+		{"245,138,172","re"},
+		{"205,166,228","mi"},
+		{"185,122,223","fa"},
+		{"105,137,210","so"},
+		{"45,197,201","la"},
+		{"243,185,28","xi"},
 	};
 	public static Dictionary<string,string> musicColorPair = new Dictionary<string, string> (){
-		{"do","245,138,172"},
-		{"re","45,197,201"},
-		{"mi","243,185,28"},
-		{"fa","205,166,228"},
-		{"so","242,109,109"},
-		{"la","185,122,223"},
-		{"xi","105,137,210"},
+		{"do","242,109,109"},
+		{"re","245,138,172"},
+		{"mi","205,166,228"},
+		{"fa","185,122,223"},
+		{"so","105,137,210"},
+		{"la","45,197,201"},
+		{"xi","243,185,28"},
 	};
 	public static List<string> levelList = new List<string> () {
 		"2-1", "1-2", "1-3",
@@ -260,6 +260,7 @@ public class Plate : MonoBehaviour {
 	}
 		
 	public void getOneNoteDone(string note,int[] sectors){
+		Debug.Log (note);
 		if (winMusic [0] != null && winMusic[0] == note ) {
 			Camera.main.GetComponent<WInLoseControl> ().deleteNode ();
 			winMusic.RemoveAt (0);

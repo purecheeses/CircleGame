@@ -24,14 +24,16 @@ public class NoteControl : MonoBehaviour {
 			{"do",0},{"re",1},{"mi",2},{"fa",3},{"so",4},{"la",5},{"xi",6},
 		};
 		fadeOutDelta = 1f / (60f * fadeOutTime);
-	}
-
-	void Start () {
 		enterTime = 2f;
 		passTime = 20f;
 		enterPos = new Vector3 (-1.17f, 3.69f,0f);
 		beginPos = new Vector3 (-0.92f, 3.69f,0f);
 		endPos = new Vector3 (3.44f, 3.69f,0f);
+		init ();
+	}
+
+	void Start () {
+
 
 		init ();
 		transform.position = enterPos;

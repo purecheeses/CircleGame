@@ -121,6 +121,7 @@ public class GameLogic
 
 	string colorToNote(Color c){
 		string s = c.r + "," + c.g + "," + c.b;
+		Debug.Log (s);
 		string res = globalConfig.colorMusicPair [s];
 		return res;
 	}

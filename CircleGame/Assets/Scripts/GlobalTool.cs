@@ -21,7 +21,6 @@ public class GlobalTool : MonoBehaviour {
 	public int getTouchSectorIndex(Vector2 pos) {
 		init ();
 		Vector3 touchPos = Camera.main.ScreenToWorldPoint (new Vector3 (pos.x, pos.y, 0));
-		Vector3 center = transform.position;
 		float distance = Vector2.Distance (new Vector2 (touchPos.x, touchPos.y), new Vector2 (center.x, center.y));
 		float touchAngle = Vector2.Angle (touchPos, Vector3.up);
 		if (touchPos.x < center.x) {
