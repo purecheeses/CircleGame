@@ -5,7 +5,7 @@ public class GameLogic
 {
 	private int[] current_sector_indexs;
 	Plate _p;
-	float _pointer = 0.0f;
+	float _pointer = 45.0f;
 	public string[] winCond;
 	public int circleCount
 	{

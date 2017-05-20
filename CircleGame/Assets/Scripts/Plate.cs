@@ -114,14 +114,14 @@ public class Plate : MonoBehaviour {
 		for (int i = 0; i < layerNum * seperateNum; i++) {
 			SectorConfig c = config [i];
 //			Debug.Log ("wenkan dfsdjkfjdsf "+c.angle);
-			sectors [i] = DrawTool.DrawSectorSolid (transform, transform.position, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
-			sectors [i].transform.Rotate (new Vector3(0, 0, c.rotation));
+			sectors [i] = DrawTool.DrawSectorSolid (transform, transform.localPosition, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
 			Vector3 t = sectors [i].transform.position;
-			sectors [i].transform.position = new Vector3 (t.x, t.y, c.radius);
+			sectors [i].transform.localPosition = new Vector3 (0, 0, c.radius);
+			sectors [i].transform.Rotate (new Vector3(0, 0, c.rotation));
 			sectors [i].name = "sector_"+ i.ToString();
 			sectors [i].AddComponent <SectorControl>();
 			sectors [i].GetComponent<SectorControl> ().color = new float[3]{ c.r, c.g, c.b };
-			sectors[i].GetComponent<SectorControl>().note =globalConfig.colorMusicPair [c.r + "," + c.g + "," + c.b];
+			sectors [i].GetComponent<SectorControl>().note =globalConfig.colorMusicPair [c.r + "," + c.g + "," + c.b];
 //			Texture tx = Resources.Load ("PaperTexture") as Texture;
 //			circles [i].GetComponent<MeshRenderer> ().material .SetTexture ("_MainTex", tx);
 		}
@@ -242,6 +242,7 @@ public class Plate : MonoBehaviour {
 		for (int i = 3; i < tmpS.Length - 1; i++) {
 			string json = tmpS [i];
 			config [i - 3] = JsonUtility.FromJson<SectorConfig> (json);
+			config [i - 3].radius *= 2.4f / 3;
 		}
 		GetComponent<Plate> ().refresh ();
 		//		plate.GetComponent<Plate>().
