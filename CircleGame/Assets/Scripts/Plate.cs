@@ -16,6 +16,15 @@ public static class globalConfig{
 		{"185,122,223","la"},
 		{"105,137,210","xi"},
 	};
+	public static Dictionary<string,string> musicColorPair = new Dictionary<string, string> (){
+		{"do","245,138,172"},
+		{"re","45,197,201"},
+		{"mi","243,185,28"},
+		{"fa","205,166,228"},
+		{"so","242,109,109"},
+		{"la","185,122,223"},
+		{"xi","105,137,210"},
+	};
 	public static List<string> levelList = new List<string> () {
 		"2-1", "1-2", "1-3",
 	};
@@ -45,17 +54,17 @@ public class Plate : MonoBehaviour {
 	public GameObject targetUI;
 	[SerializeField]
 	public SectorConfig[] config = {
-		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
-		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
-		new SectorConfig(120f, 240f, 1.0f, 0,0,255),
+		new SectorConfig(120f, 0f, 1.0f, 105,137,210),
+		new SectorConfig(120f, 120f, 1.0f, 185,122,223),
+		new SectorConfig(120f, 240f, 1.0f, 242,109,109),
 
-		new SectorConfig(120f, 25f, 2.0f, 255,0,0),
-		new SectorConfig(120f, 145f, 2.0f, 0,255,0),
-		new SectorConfig(120f, 265f, 2.0f, 0,0,255),
+		new SectorConfig(120f, 25f, 2.0f, 242,109,109),
+		new SectorConfig(120f, 145f, 2.0f, 105,137,210),
+		new SectorConfig(120f, 265f, 2.0f, 185,122,223),
 
-		new SectorConfig(120f, 45f, 3.0f, 255,0,0),
-		new SectorConfig(120f, 165f, 3.0f, 0,255,0),
-		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
+		new SectorConfig(120f, 45f, 3.0f, 185,122,223),
+		new SectorConfig(120f, 165f, 3.0f, 242,109,109),
+		new SectorConfig(120f, 285f, 3.0f, 105,137,210),
 	};
 	public string winCond;
 	public List<string> winMusic;
@@ -110,6 +119,9 @@ public class Plate : MonoBehaviour {
 			Vector3 t = sectors [i].transform.position;
 			sectors [i].transform.position = new Vector3 (t.x, t.y, c.radius);
 			sectors [i].name = "sector_"+ i.ToString();
+			sectors [i].AddComponent <SectorControl>();
+			sectors [i].GetComponent<SectorControl> ().color = new float[3]{ c.r, c.g, c.b };
+			sectors[i].GetComponent<SectorControl>().note =globalConfig.colorMusicPair [c.r + "," + c.g + "," + c.b];
 //			Texture tx = Resources.Load ("PaperTexture") as Texture;
 //			circles [i].GetComponent<MeshRenderer> ().material .SetTexture ("_MainTex", tx);
 		}
@@ -280,8 +292,10 @@ public class Plate : MonoBehaviour {
 		string[] res = new string[4];
 		int n = globalConfig.colorMusicPair.Count ;
 		List<string> list = new List<string> ();
+		List<string> noteList = new List<string> ();
 		foreach (var i in globalConfig.colorMusicPair) {
 			list.Add (i.Key);
+			noteList.Add (i.Value);
 			if (i.Value == s) {
 				colorS = i.Key;
 			}
@@ -309,6 +323,17 @@ public class Plate : MonoBehaviour {
 				}
 			}
 			if (isHasColor) {
+				int leftIndex = i + 1;
+				int rightIndex = i - 1;
+				if (i % seperateNum == 0) {
+					rightIndex += seperateNum;
+				}
+				if (i % seperateNum == seperateNum - 1) {
+					leftIndex -= seperateNum;
+				}
+				string note1 = noteList [leftIndex];
+				string note2 = noteList [rightIndex];
+
 				int index = Random.Range (1, 4);
 				string coolorS = res [index];
 				string[] coolorss = coolorS.Split (',');
