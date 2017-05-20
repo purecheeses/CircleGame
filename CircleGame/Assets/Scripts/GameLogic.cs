@@ -121,12 +121,15 @@ public class GameLogic
 		var c = _p.config [sectorIndex];
 		string res = colorToNote (new Color(c.r,c.g,c.b));
 		Camera.main.GetComponent<AudioControl> ().Play (res);
+		if (_p.isHiddenColorMode) {
+			
+		}
+
 		Debug.Log ("onEneterSector "+sectorIndex.ToString());
 	}
 
 	string colorToNote(Color c){
 		string s = c.r + "," + c.g + "," + c.b;
-		Debug.Log (s);
 		string res = globalConfig.colorMusicPair [s];
 		return res;
 	}
@@ -146,7 +149,7 @@ public class GameLogic
 			rotation = rotation - 180;
 		}
 		bool isMatch = checkMatch ();
-//		Debug.Log ("wenkan isMatch " + isMatch);
+		Debug.Log ("wenkan isMatch " + isMatch);
 
 		if (isMatch) {
 			
@@ -179,6 +182,7 @@ public class GameLogic
 				var c = _p.config [sectorIndex];
 				string res = colorToNote (new Color(c.r,c.g,c.b));
 				int[] sectors =  getMatchedSectors ();
+				Debug.Log(res);
 				_p.getOneNoteDone (res,sectors);
 				counter = 0;
 			}
