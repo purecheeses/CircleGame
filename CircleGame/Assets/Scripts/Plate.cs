@@ -333,7 +333,9 @@ public class Plate : MonoBehaviour {
 				}
 				string note1 = noteList [leftIndex];
 				string note2 = noteList [rightIndex];
-
+				var temp = noteList [6];
+				noteList [6] = note1;
+				noteList [leftIndex] = temp;
 				int index = Random.Range (1, 4);
 				string coolorS = res [index];
 				string[] coolorss = coolorS.Split (',');
