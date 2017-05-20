@@ -258,6 +258,7 @@ public class Plate : MonoBehaviour {
 		
 	public void getOneNoteDone(string note,int[] sectors){
 		if (winMusic [0] != null && winMusic[0] == note ) {
+			Camera.main.GetComponent<WInLoseControl> ().deleteNode ();
 			winMusic.RemoveAt (0);
 			refreshTargetUI ();
 			changeColor (sectors);
@@ -400,5 +401,6 @@ public class Plate : MonoBehaviour {
 		yield return new WaitForSeconds(waitTime);
 		GameObject obj = Instantiate (notePrefab) as GameObject;
 		obj.GetComponent<NoteControl> ().setPos (note);
+		Camera.main.GetComponent<WInLoseControl> ().addNote (obj);
 	}
 }

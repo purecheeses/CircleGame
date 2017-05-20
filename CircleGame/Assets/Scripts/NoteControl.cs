@@ -13,12 +13,16 @@ public class NoteControl : MonoBehaviour {
 	public float deltaAlpha;
 	public Vector3 deltaEnter;
 	public Vector3 deltaPass;
+	bool isFadingOut;
+	float fadeOutTime = 1.5f;
+	float fadeOutDelta;
 	// Use this for initialization
 
 	void Awake(){
 		noteDic = new Dictionary<string,int> {
 			{"do",0},{"re",1},{"mi",2},{"fa",3},{"so",4},{"la",5},{"xi",6},
 		};
+		fadeOutDelta = 1f / (60f * fadeOutTime);
 	}
 
 	void Start () {
@@ -32,6 +36,7 @@ public class NoteControl : MonoBehaviour {
 		transform.position = enterPos;
 		Color color = GetComponent<SpriteRenderer> ().color;
 		GetComponent<SpriteRenderer> ().color = new Color (color.r, color.g, color.b, 0);
+		isFadingOut = false;
 	}
 	
 	// Update is called once per frame
@@ -49,6 +54,10 @@ public class NoteControl : MonoBehaviour {
 				GameOver ();
 			}
 		}
+		if (isFadingOut) {
+			Color color = GetComponent<SpriteRenderer> ().color;
+			GetComponent<SpriteRenderer> ().color = new Color (color.r, color.g, color.b, color.a -fadeOutDelta);
+		}
 	}
 
 	void GameOver(){
@@ -65,5 +74,9 @@ public class NoteControl : MonoBehaviour {
 		deltaAlpha = 1f / (enterTime * 60f);
 		deltaEnter = (beginPos - enterPos) /(60f* enterTime);
 		deltaPass = (endPos - beginPos) / (60f * passTime);
+	}
+
+	public void FadeOut(){
+		isFadingOut = true;
 	}
 }
