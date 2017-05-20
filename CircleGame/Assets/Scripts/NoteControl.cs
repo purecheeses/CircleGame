@@ -61,6 +61,9 @@ public class NoteControl : MonoBehaviour {
 	}
 
 	void GameOver(){
+		#if UNITY_IPHONE
+		Handheld.Vibrate ();
+		#endif
 	}
 
 	public void setPos(string note){

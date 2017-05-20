@@ -176,26 +176,21 @@ public class Plate : MonoBehaviour {
 
 	}
 
-//	private int callback_count = 0;
-	private bool _enable_touch = true;
-	public void alignSector(int circleIndex, int sectorIndex)
+
+	public void alignSector(int circleIndex, int sectorIndex, ActionCallback callback)
 	{
 
 //		Debug.Log ("wenkan alignSector");
-		_enable_touch = false;
 		float rotation = sector_rotations [sectorIndex];
 		rotation = rotation % 360 + 45.0f;
 
-		ActionCallback localCallback = delegate {
-			_enable_touch = true;
-		};
 		int startIndex = circleIndex * seperateNum;
 		for (int i = startIndex; i < startIndex + seperateNum; i++) {
 			float last_rotation = sector_rotations [i];
 //			sectors [i].transform.rotation = Quaternion.Euler (new Vector3 (0, 0, last_rotation - rotation));
 			Quaternion to = Quaternion.Euler (new Vector3 (0, 0, last_rotation - rotation));
 			var rotateTo = sectors [i].AddComponent<RotateTo> ();
-			rotateTo.setParams (to, 0.5f, localCallback);
+			rotateTo.setParams (to, 0.5f, callback);
 			GetComponent<Plate> () .setSectorRotation (i, last_rotation - rotation);
 		}
 
