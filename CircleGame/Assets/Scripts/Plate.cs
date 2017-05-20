@@ -119,6 +119,10 @@ public class Plate : MonoBehaviour {
 //			Debug.Log ("wenkan dfsdjkfjdsf "+c.angle);
 			if (isHiddenColorMode) {
 				sectors [i] = DrawTool.DrawSectorSolid (transform, transform.localPosition, c.angle, c.radius, new Color(1,1,1),c.rotation);
+				var frame = DrawTool.DrawSector (sectors [i].transform, sectors [i].transform.localPosition, c.angle, c.radius);
+//				frame.transform.parent = sectors [i].transform;
+//				frame.transform.Rotate (new Vector3(0, 0, c.rotation));
+//				frame.transform.Rotate(new Vector3(0,0,100));
 			} else {
 				sectors [i] = DrawTool.DrawSectorSolid (transform, transform.localPosition, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
 			}
@@ -130,6 +134,9 @@ public class Plate : MonoBehaviour {
 			sectors [i].AddComponent <SectorControl>();
 			sectors [i].GetComponent<SectorControl> ().color = new float[3]{ c.r, c.g, c.b };
 			sectors [i].GetComponent<SectorControl>().note =globalConfig.colorMusicPair [c.r + "," + c.g + "," + c.b];
+
+
+
 //			Texture tx = Resources.Load ("PaperTexture") as Texture;
 //			circles [i].GetComponent<MeshRenderer> ().material .SetTexture ("_MainTex", tx);
 		}
