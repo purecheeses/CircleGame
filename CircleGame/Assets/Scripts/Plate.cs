@@ -293,19 +293,25 @@ public class Plate : MonoBehaviour {
 			return;
 		string s = winMusic [0];
 		string colorS="";
-		string[] res = new string[4];
+		string[] res = new string[7];
 		int n = globalConfig.colorMusicPair.Count ;
 		List<string> list = new List<string> ();
 		List<string> noteList = new List<string> ();
+		int countRes = 0;
 		foreach (var i in globalConfig.colorMusicPair) {
 			list.Add (i.Key);
 			noteList.Add (i.Value);
 			if (i.Value == s) {
 				colorS = i.Key;
 			}
+			res[countRes] = i.Key;
 			if (s == i.Value) {
-				res [0] = i.Key;
+				int m = countRes;
+				var temp = res [m];
+				res [m] = res [0];
+				res [0] = temp;
 			}
+			countRes++;
 		}
 		for (int i = 0; i < 3; i++) {
 			int nn = Random.Range (1, n + 1);
@@ -335,10 +341,36 @@ public class Plate : MonoBehaviour {
 				if (i % seperateNum == seperateNum - 1) {
 					leftIndex -= seperateNum;
 				}
-				string note1 = noteList [leftIndex];
-				string note2 = noteList [rightIndex];
+				var c1 = config [leftIndex];
+				string cs1 = c1.r.ToString () + "," + c1.g.ToString () + "," + c1.b.ToString ();
+				string note1 = globalConfig.colorMusicPair [cs1];
+				var c2 = config [rightIndex];
+				string cs2 = c2.r.ToString () + "," + c2.g.ToString () + "," + c2.b.ToString ();
+				string note2 = globalConfig.colorMusicPair [cs2];
+				for (int ii = 0; ii < noteList.Count; ii++) {
+					if (noteList [ii] == note1) {
+						leftIndex = ii;
+					}
+					if (noteList [ii] == note2) {
+						rightIndex = ii;
+					}
+				}
+				var temp = noteList [6];
+				noteList [6] = note1;
+				noteList [leftIndex] = temp;
+				var temp1 = res [6];
+				res [6] = res [leftIndex];
+				res [leftIndex] = temp1;
 
-				int index = Random.Range (1, 4);
+				var temp2 = noteList [5];
+				noteList [5] = note2;
+				noteList [rightIndex] = temp2;
+				var temp3 = res [5];
+				res [5] = res [rightIndex];
+				res [rightIndex] = temp3;
+
+				int index = Random.Range (0, 5);
+
 				string coolorS = res [index];
 				string[] coolorss = coolorS.Split (',');
 				config [i].r = float.Parse(coolorss [0]);
