@@ -81,6 +81,7 @@ public class Plate : MonoBehaviour {
 		return sector_rotations [sectorIndex];
 	}
 		
+	public GameObject notePrefab;
 
 	// Use this for initialization
 	void Awake () {
@@ -92,6 +93,7 @@ public class Plate : MonoBehaviour {
 		if (Camera.main.GetComponent<EditorControl> () == null) {
 			open("2-1");
 		}
+		startMakeNote ();
 	}
 	
 	// Update is called once per frame
@@ -280,6 +282,7 @@ public class Plate : MonoBehaviour {
 			if (globalConfig.levelList [levelNum] != null) {
 				open (globalConfig.levelList [levelNum]);
 				refresh ();
+				startMakeNote ();
 			}
 		}
 
@@ -351,5 +354,19 @@ public class Plate : MonoBehaviour {
 			}
 		}
 		refresh ();
+	}
+
+	void startMakeNote(){
+		float time = 0;
+		foreach (var music in winMusic) {
+			StartCoroutine (pawnNote (music,time));
+			time += 10f;
+		}
+	}
+
+	IEnumerator  pawnNote(string note,float waitTime){
+		yield return new WaitForSeconds(waitTime);
+		GameObject obj = Instantiate (notePrefab) as GameObject;
+		obj.GetComponent<NoteControl> ().setPos (note);
 	}
 }
