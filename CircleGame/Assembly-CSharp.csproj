@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Math.cs" />
      <Compile Include="Assets\Scripts\Plate.cs" />
      <Compile Include="Assets\Scripts\RotateTo.cs" />
+     <Compile Include="Assets\Scripts\SectorControl.cs" />
      <Compile Include="Assets\Scripts\TouchControl.cs" />
      <Compile Include="Assets\Scripts\TouchHandler.cs" />
      <Compile Include="Assets\Scripts\UIEventListener.cs" />

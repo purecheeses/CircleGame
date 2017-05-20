@@ -16,6 +16,15 @@ public static class globalConfig{
 		{"185,122,223","la"},
 		{"105,137,210","xi"},
 	};
+	public static Dictionary<string,string> musicColorPair = new Dictionary<string, string> (){
+		{"do","245,138,172"},
+		{"re","45,197,201"},
+		{"mi","243,185,28"},
+		{"fa","205,166,228"},
+		{"so","242,109,109"},
+		{"la","185,122,223"},
+		{"xi","105,137,210"},
+	};
 	public static List<string> levelList = new List<string> () {
 		"2-1", "1-2", "1-3",
 	};
@@ -45,17 +54,17 @@ public class Plate : MonoBehaviour {
 	public GameObject targetUI;
 	[SerializeField]
 	public SectorConfig[] config = {
-		new SectorConfig(120f, 0f, 1.0f, 255,0,0),
-		new SectorConfig(120f, 120f, 1.0f, 0,255,0),
-		new SectorConfig(120f, 240f, 1.0f, 0,0,255),
+		new SectorConfig(120f, 0f, 1.0f, 105,137,210),
+		new SectorConfig(120f, 120f, 1.0f, 185,122,223),
+		new SectorConfig(120f, 240f, 1.0f, 242,109,109),
 
-		new SectorConfig(120f, 25f, 2.0f, 255,0,0),
-		new SectorConfig(120f, 145f, 2.0f, 0,255,0),
-		new SectorConfig(120f, 265f, 2.0f, 0,0,255),
+		new SectorConfig(120f, 25f, 2.0f, 242,109,109),
+		new SectorConfig(120f, 145f, 2.0f, 105,137,210),
+		new SectorConfig(120f, 265f, 2.0f, 185,122,223),
 
-		new SectorConfig(120f, 45f, 3.0f, 255,0,0),
-		new SectorConfig(120f, 165f, 3.0f, 0,255,0),
-		new SectorConfig(120f, 285f, 3.0f, 0,0,255),
+		new SectorConfig(120f, 45f, 3.0f, 185,122,223),
+		new SectorConfig(120f, 165f, 3.0f, 242,109,109),
+		new SectorConfig(120f, 285f, 3.0f, 105,137,210),
 	};
 	public string winCond;
 	public List<string> winMusic;
@@ -110,6 +119,9 @@ public class Plate : MonoBehaviour {
 			Vector3 t = sectors [i].transform.position;
 			sectors [i].transform.position = new Vector3 (t.x, t.y, c.radius);
 			sectors [i].name = "sector_"+ i.ToString();
+			sectors [i].AddComponent <SectorControl>();
+			sectors [i].GetComponent<SectorControl> ().color = new float[3]{ c.r, c.g, c.b };
+			sectors[i].GetComponent<SectorControl>().note =globalConfig.colorMusicPair [c.r + "," + c.g + "," + c.b];
 //			Texture tx = Resources.Load ("PaperTexture") as Texture;
 //			circles [i].GetComponent<MeshRenderer> ().material .SetTexture ("_MainTex", tx);
 		}
@@ -167,7 +179,7 @@ public class Plate : MonoBehaviour {
 	public void alignSector(int circleIndex, int sectorIndex)
 	{
 
-		Debug.Log ("wenkan alignSector");
+//		Debug.Log ("wenkan alignSector");
 		_enable_touch = false;
 		float rotation = sector_rotations [sectorIndex];
 		rotation = rotation % 360;
@@ -241,10 +253,11 @@ public class Plate : MonoBehaviour {
 //		file_stream.Close ();
 	}
 		
-	public void getOneNoteDone(string note){
+	public void getOneNoteDone(string note,int[] sectors){
 		if (winMusic [0] != null && winMusic[0] == note ) {
 			winMusic.RemoveAt (0);
 			refreshTargetUI ();
+			changeColor (sectors);
 		}
 	}
 
@@ -272,17 +285,70 @@ public class Plate : MonoBehaviour {
 	}
 
 	public void changeColor(int[] sectors){
+		if (winMusic.Count == 0)
+			return;
 		string s = winMusic [0];
+		string colorS="";
 		string[] res = new string[4];
-		res [0] = s;
 		int n = globalConfig.colorMusicPair.Count ;
+		List<string> list = new List<string> ();
+		List<string> noteList = new List<string> ();
+		foreach (var i in globalConfig.colorMusicPair) {
+			list.Add (i.Key);
+			noteList.Add (i.Value);
+			if (i.Value == s) {
+				colorS = i.Key;
+			}
+			if (s == i.Value) {
+				res [0] = i.Key;
+			}
+		}
 		for (int i = 0; i < 3; i++) {
 			int nn = Random.Range (1, n + 1);
-//			s[i+1] = 
+			res [i + 1] = list [nn - 1];
 		}
-
+		string[] css = colorS.Split (',');
 		foreach(var i in sectors){
-			
+			int circleNum = (int)(i / seperateNum);
+			bool isHasColor = false;
+			for (int j = 0; j < seperateNum; j++) {
+				int num = circleNum * seperateNum;
+				if (num + j != i) {
+					float r = config [num + j].r;
+					float g = config [num + j].g;
+					float b = config [num + j].b;
+					if (float.Parse(css [0]) == r && float.Parse(css [1]) == g && float.Parse(css [2]) == b) {
+						isHasColor = true;
+					}
+				}
+			}
+			if (isHasColor) {
+				int leftIndex = i + 1;
+				int rightIndex = i - 1;
+				if (i % seperateNum == 0) {
+					rightIndex += seperateNum;
+				}
+				if (i % seperateNum == seperateNum - 1) {
+					leftIndex -= seperateNum;
+				}
+				string note1 = noteList [leftIndex];
+				string note2 = noteList [rightIndex];
+
+				int index = Random.Range (1, 4);
+				string coolorS = res [index];
+				string[] coolorss = coolorS.Split (',');
+				config [i].r = float.Parse(coolorss [0]);
+				config [i].g = float.Parse(coolorss [1]);
+				config [i].b = float.Parse(coolorss [2]);
+			}else{
+				string coolorS = res [0];
+				Debug.Log (coolorS);
+				string[] coolorss = coolorS.Split (',');
+				config [i].r = float.Parse(coolorss [0]);
+				config [i].g = float.Parse(coolorss [1]);
+				config [i].b = float.Parse(coolorss [2]);
+			}
 		}
+		refresh ();
 	}
 }
