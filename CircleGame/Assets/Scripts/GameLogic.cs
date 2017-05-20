@@ -81,6 +81,7 @@ public class GameLogic
 //			Debug.Log (string.Format("wenkan2222 startIndex {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
 //				startIndex, base_angle, start_angle, end_angle, pointer));
 			if (pointer > start_angle && pointer <= end_angle) {
+				Debug.Log ("wenkan calcPointedSectorIndex " + i);
 				return i;
 			}
 		}
@@ -108,7 +109,7 @@ public class GameLogic
 		var c = _p.config [sectorIndex];
 		string res = colorToNote (new Color(c.r,c.g,c.b));
 		Camera.main.GetComponent<AudioControl> ().Play (res);
-//		Debug.Log ("wenkan onEneterSector "+sectorIndex.ToString());
+		Debug.Log ("wenkan onEneterSector "+sectorIndex.ToString());
 	}
 
 	string colorToNote(Color c){
@@ -132,12 +133,14 @@ public class GameLogic
 			rotation = rotation - 180;
 		}
 		bool isMatch = checkMatch ();
+		Debug.Log ("wenkan isMatch " + isMatch);
 
 		if (isMatch) {
-			for (int i = 0; i < circleCount; i++) {
-				int thisSectorIndex = calcPointedSectorIndex (i);
-				_p.alignSector (i, thisSectorIndex);
-			}
+//			for (int i = 0; i < circleCount; i++) {
+//				int thisSectorIndex = calcPointedSectorIndex (i);
+//				_p.alignSector (i, thisSectorIndex);
+//			}
+
 			var c = _p.config [sectorIndex];
 			string res = colorToNote (new Color(c.r,c.g,c.b));
 			int[] sectors =  getMatchedSectors ();
