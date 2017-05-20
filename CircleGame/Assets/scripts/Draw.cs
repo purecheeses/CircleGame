@@ -27,7 +27,7 @@ public class DrawTool : MonoBehaviour
 	}
 
 	//绘制空心扇形    
-	public static void DrawSector(Transform t, Vector3 center, float angle, float radius)
+	public static LineRenderer DrawSector(Transform t, Vector3 center, float angle, float radius)
 	{
 		LineRenderer lr = GetLineRenderer(t);
 		int pointAmount = 100;//点的数目，值越大曲线越平滑    
@@ -43,6 +43,7 @@ public class DrawTool : MonoBehaviour
 			Vector3 pos = Quaternion.Euler(0f, 0f, -angle / 2 + eachAngle * (i - 1)) * forward * radius + center;
 			lr.SetPosition(i, pos);
 		}
+		return lr;
 	}
 
 	//绘制空心圆    

@@ -14,7 +14,7 @@ public class AudioControl : MonoBehaviour {
 	AudioClip backgroudClip;
 	void Start() {
 		//设置默认音量
-		musicVolume = 0.5F;
+		musicVolume = 0.25F;
 		backgroudClip = Resources.Load("Musics/bgm_01") as AudioClip ;
 		music.clip = backgroudClip;
 		playStartTime = 0.0f;

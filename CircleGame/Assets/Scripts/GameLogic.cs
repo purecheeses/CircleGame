@@ -72,8 +72,8 @@ public class GameLogic
 			float end_angle = base_angle + _p.config [i].angle / 2;
 
 
-//			Debug.Log (string.Format("wenkan1111 index {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
-//				i, base_angle, start_angle, end_angle, pointer));
+			Debug.Log (string.Format("wenkan1111 index {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
+				i, base_angle, start_angle, end_angle, pointer));
 //			int pivot = 360 + pointer;
 //			int pivot = 360;
 //			if (start_angle >= pivot || end_angle >= pivot) {
@@ -83,6 +83,10 @@ public class GameLogic
 //				start_angle += 360;
 //				end_angle += 360;
 //			}
+			if (start_angle < 0 || end_angle < 0) {
+				start_angle += 360;
+				end_angle += 360;
+			}
 
 //			Debug.Log (string.Format("wenkan2222 startIndex {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
 //				startIndex, base_angle, start_angle, end_angle, pointer));
@@ -91,7 +95,8 @@ public class GameLogic
 				return i;
 			}
 		}
-//		Debug.Log ("wenkan XXXXXXXXXXXXXXXXXXXXXXXXX");
+		Debug.Log ("wenkan XXXXXXXXXXXXXXXXXXXXXXXXX");
+		Debug.Break ();
 		return -1;
 	}
 
@@ -189,9 +194,9 @@ public class GameLogic
 	{	
 //		Debug.Log ("开始");
 		Color c = new Color (0, 0, 0);
-		for (int i = 0; i < circleCount; i++) {
+		for (int i = 0; i < circleCount; i++){
 			int sectorIndex = currentSector (i);
-//			Debug.Log (string.Format("circle {0} sector {1}", i, sectorIndex));
+			Debug.Log (string.Format("circle {0} sector {1}", i, sectorIndex));
 //			Debug.Log (_p.config [sectorIndex].r +" "+ _p.config [sectorIndex].g+" "+_p.config [sectorIndex].b);
 			if (i == 0) {
 				c.r = _p.config [sectorIndex].r;
