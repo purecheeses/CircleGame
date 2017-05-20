@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WInLoseControl : MonoBehaviour {
 	List<GameObject> list;
+	public GameObject winPanel;
+	public GameObject losePanel;
 	// Use this for initialization
 	void Start () {
 		list = new List<GameObject>();

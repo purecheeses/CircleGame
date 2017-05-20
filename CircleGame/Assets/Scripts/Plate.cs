@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;  
 using System.Text;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public static class globalConfig{
 	public static float radius = 5.0f;
@@ -69,6 +70,7 @@ public class Plate : MonoBehaviour {
 	public string winCond;
 	public List<string> winMusic;
 	public GameObject[] sectors;
+	public string currentLevel = "2-1";
 	public float[] sector_rotations; //记录所有扇形当前的旋转角度，后面就不用计算啦
 
 	public void setSectorRotation(int sectorIndex, float rotation)
@@ -86,12 +88,11 @@ public class Plate : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		drawGame ();
-
 	}
 
 	void Start(){
 		if (Camera.main.GetComponent<EditorControl> () == null) {
-			open("2-1");
+			open(currentLevel);
 		}
 		startMakeNote ();
 	}
@@ -278,13 +279,14 @@ public class Plate : MonoBehaviour {
 			}
 			targetUI.GetComponent<Text> ().text = s;
 		} else {
-			targetUI.GetComponent<Text> ().text = "";
-			levelNum++;
-			if (globalConfig.levelList [levelNum] != null) {
-				open (globalConfig.levelList [levelNum]);
-				refresh ();
-				startMakeNote ();
-			}
+			Camera.main.GetComponent<WInLoseControl> ().winPanel.SetActive (true);
+//			targetUI.GetComponent<Text> ().text = "";
+//			levelNum++;
+//			if (globalConfig.levelList [levelNum] != null) {
+//				open (globalConfig.levelList [levelNum]);
+//				refresh ();
+//				startMakeNote ();
+//			}
 		}
 
 	}
@@ -402,5 +404,19 @@ public class Plate : MonoBehaviour {
 		GameObject obj = Instantiate (notePrefab) as GameObject;
 		obj.GetComponent<NoteControl> ().setPos (note);
 		Camera.main.GetComponent<WInLoseControl> ().addNote (obj);
+	}
+
+	public void playAgain(){
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void goNextScene(){
+		string name = SceneManager.GetActiveScene ().name;
+		if (name == "scene2") {
+			SceneManager.LoadScene("scene3");
+		}
+		if (name == "scene3") {
+			SceneManager.LoadScene("scene2");
+		}
 	}
 }

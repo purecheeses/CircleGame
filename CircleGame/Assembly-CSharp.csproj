@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\EditorControl.cs" />
      <Compile Include="Assets\Scripts\GameLogic.cs" />
      <Compile Include="Assets\Scripts\GlobalTool.cs" />
+     <Compile Include="Assets\Scripts\GoLevel.cs" />
      <Compile Include="Assets\Scripts\Math.cs" />
      <Compile Include="Assets\Scripts\NoteControl.cs" />
      <Compile Include="Assets\Scripts\Plate.cs" />

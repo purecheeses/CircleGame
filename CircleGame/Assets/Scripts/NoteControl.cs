@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NoteControl : MonoBehaviour {
 	public Vector3 enterPos ;
@@ -27,7 +28,7 @@ public class NoteControl : MonoBehaviour {
 
 	void Start () {
 		enterTime = 2f;
-		passTime = 20f;
+		passTime = 2f;
 		enterPos = new Vector3 (-1.17f, 3.69f,0f);
 		beginPos = new Vector3 (-0.92f, 3.69f,0f);
 		endPos = new Vector3 (3.44f, 3.69f,0f);
@@ -61,6 +62,8 @@ public class NoteControl : MonoBehaviour {
 	}
 
 	void GameOver(){
+		Camera.main.GetComponent<WInLoseControl> ().losePanel.SetActive (true);
+//		SceneManager.LoadScene("GameOverScene");
 	}
 
 	public void setPos(string note){
