@@ -72,7 +72,7 @@ public class Plate : MonoBehaviour {
 	public GameObject[] sectors;
 	public string currentLevel = "2-1";
 	public float[] sector_rotations; //记录所有扇形当前的旋转角度，后面就不用计算啦
-
+	public bool isHiddenColorMode = false;
 	public void setSectorRotation(int sectorIndex, float rotation)
 	{
 		sector_rotations [sectorIndex] = rotation;
@@ -117,7 +117,12 @@ public class Plate : MonoBehaviour {
 		for (int i = 0; i < layerNum * seperateNum; i++) {
 			SectorConfig c = config [i];
 //			Debug.Log ("wenkan dfsdjkfjdsf "+c.angle);
-			sectors [i] = DrawTool.DrawSectorSolid (transform, transform.localPosition, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
+			if (isHiddenColorMode) {
+				sectors [i] = DrawTool.DrawSectorSolid (transform, transform.localPosition, c.angle, c.radius, new Color(1,1,1),c.rotation);
+			} else {
+				sectors [i] = DrawTool.DrawSectorSolid (transform, transform.localPosition, c.angle, c.radius, new Color(c.r/255.0f,c.g/255.0f,c.b/255.0f),c.rotation);
+			}
+
 			Vector3 t = sectors [i].transform.position;
 			sectors [i].transform.localPosition = new Vector3 (0, 0, c.radius);
 			sectors [i].transform.Rotate (new Vector3(0, 0, c.rotation));
@@ -136,8 +141,10 @@ public class Plate : MonoBehaviour {
 		for (int i = 0; i < sectorCount; i++) {
 			sector_rotations [i] = config [i].rotation;
 		}
+		if (isHiddenColorMode) {
+//			drawFrontier ();		
+		}
 
-//		drawFrontier ();
 		drawSector ();
 	}
 

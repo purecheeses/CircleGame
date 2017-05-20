@@ -112,7 +112,7 @@ public class GameLogic
 
 	private void onEnterSector(int sectorIndex)
 	{
-		Debug.Log (sectorIndex);
+//		Debug.Log (sectorIndex);
 		var c = _p.config [sectorIndex];
 		string res = colorToNote (new Color(c.r,c.g,c.b));
 		Camera.main.GetComponent<AudioControl> ().Play (res);
@@ -140,7 +140,7 @@ public class GameLogic
 			rotation = rotation - 180;
 		}
 		bool isMatch = checkMatch ();
-		Debug.Log ("wenkan isMatch " + isMatch);
+//		Debug.Log ("wenkan isMatch " + isMatch);
 
 		if (isMatch) {
 			

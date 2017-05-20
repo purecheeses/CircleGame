@@ -28,7 +28,7 @@ public class NoteControl : MonoBehaviour {
 
 	void Start () {
 		enterTime = 2f;
-		passTime = 2f;
+		passTime = 20f;
 		enterPos = new Vector3 (-1.17f, 3.69f,0f);
 		beginPos = new Vector3 (-0.92f, 3.69f,0f);
 		endPos = new Vector3 (3.44f, 3.69f,0f);
