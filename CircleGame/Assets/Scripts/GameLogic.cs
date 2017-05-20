@@ -5,7 +5,7 @@ public class GameLogic
 {
 	private int[] current_sector_indexs;
 	Plate _p;
-	float _pointer = 45.0f;
+	float _pointer = 315.0f;
 	public string[] winCond;
 	public int circleCount
 	{
@@ -64,24 +64,30 @@ public class GameLogic
 		int startIndex = circleIndex * sectorCount;
 		for (int i = startIndex; i < startIndex + sectorCount; i++) {
 			float base_angle = _p.getSectorRotation (i) % 360;
+			if (base_angle < 0) {
+				base_angle += 360;
+			}
+
 			float start_angle = base_angle - _p.config [i].angle / 2;
 			float end_angle = base_angle + _p.config [i].angle / 2;
 
-//			Debug.Log (string.Format("wenkan1111 startIndex {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
-//				startIndex, base_angle, start_angle, end_angle, pointer));
 
-			if (start_angle >= 360 || end_angle >= 360) {
-				start_angle -= 360;
-				end_angle -= 360;
-			} else if (start_angle <= -360 || end_angle <= -360) {
-				start_angle += 360;
-				end_angle += 360;
-			}
+//			Debug.Log (string.Format("wenkan1111 index {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
+//				i, base_angle, start_angle, end_angle, pointer));
+//			int pivot = 360 + pointer;
+//			int pivot = 360;
+//			if (start_angle >= pivot || end_angle >= pivot) {
+//				start_angle -= 360;
+//				end_angle -= 360;
+//				} else if (start_angle <= -pivot || end_angle <= -pivot) {
+//				start_angle += 360;
+//				end_angle += 360;
+//			}
 
 //			Debug.Log (string.Format("wenkan2222 startIndex {0}, base_angle {1}, start_angle {2}, end_angle {3}, pointer {4}",
 //				startIndex, base_angle, start_angle, end_angle, pointer));
 			if (pointer > start_angle && pointer <= end_angle) {
-				Debug.Log ("wenkan calcPointedSectorIndex " + i);
+//				Debug.Log ("wenkan calcPointedSectorIndex " + i);
 				return i;
 			}
 		}
@@ -106,10 +112,11 @@ public class GameLogic
 
 	private void onEnterSector(int sectorIndex)
 	{
+		Debug.Log (sectorIndex);
 		var c = _p.config [sectorIndex];
 		string res = colorToNote (new Color(c.r,c.g,c.b));
 		Camera.main.GetComponent<AudioControl> ().Play (res);
-		Debug.Log ("wenkan onEneterSector "+sectorIndex.ToString());
+		Debug.Log ("onEneterSector "+sectorIndex.ToString());
 	}
 
 	string colorToNote(Color c){
@@ -136,10 +143,10 @@ public class GameLogic
 		Debug.Log ("wenkan isMatch " + isMatch);
 
 		if (isMatch) {
-//			for (int i = 0; i < circleCount; i++) {
-//				int thisSectorIndex = calcPointedSectorIndex (i);
-//				_p.alignSector (i, thisSectorIndex);
-//			}
+			for (int i = 0; i < circleCount; i++) {
+				int thisSectorIndex = calcPointedSectorIndex (i);
+				_p.alignSector (i, thisSectorIndex);
+			}
 
 			var c = _p.config [sectorIndex];
 			string res = colorToNote (new Color(c.r,c.g,c.b));
@@ -154,12 +161,14 @@ public class GameLogic
 		Color c = new Color (0, 0, 0);
 		for (int i = 0; i < circleCount; i++) {
 			int sectorIndex = currentSector (i);
+//			Debug.Log (string.Format("circle {0} sector {1}", i, sectorIndex));
 //			Debug.Log (_p.config [sectorIndex].r +" "+ _p.config [sectorIndex].g+" "+_p.config [sectorIndex].b);
 			if (i == 0) {
 				c.r = _p.config [sectorIndex].r;
 				c.g = _p.config [sectorIndex].g;
 				c.b = _p.config [sectorIndex].b;
 			} else if (c.r != _p.config [sectorIndex].r || c.g != _p.config [sectorIndex].g || c.b != _p.config [sectorIndex].b){
+//				Debug.Log (string.Format("wenkan {0},{1},{2},  {3},{4},{5}", c.r, c.g, c.b, _p.config [sectorIndex].r, _p.config [sectorIndex].g, _p.config [sectorIndex].b));
 				return false;
 			}
 		}
