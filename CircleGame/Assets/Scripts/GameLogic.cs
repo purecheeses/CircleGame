@@ -126,7 +126,7 @@ public class GameLogic
 
 	string colorToNote(Color c){
 		string s = c.r + "," + c.g + "," + c.b;
-		Debug.Log (s);
+//		Debug.Log (s);
 		string res = globalConfig.colorMusicPair [s];
 		return res;
 	}
@@ -173,7 +173,7 @@ public class GameLogic
 			_enable_touch = true;
 			counter++;
 
-			Debug.Log("counter "+counter);
+//			Debug.Log("counter "+counter);
 
 			if (counter >= total){
 				var c = _p.config [sectorIndex];
@@ -195,8 +195,8 @@ public class GameLogic
 //		Debug.Log ("开始");
 		Color c = new Color (0, 0, 0);
 		for (int i = 0; i < circleCount; i++){
-			int sectorIndex = currentSector (i);
-//			Debug.Log (string.Format("circle {0} sector {1}", i, sectorIndex));
+			int sectorIndex = calcPointedSectorIndex (i);
+			Debug.Log (string.Format("circle {0} sector {1}", i, sectorIndex));
 //			Debug.Log (_p.config [sectorIndex].r +" "+ _p.config [sectorIndex].g+" "+_p.config [sectorIndex].b);
 			if (i == 0) {
 				c.r = _p.config [sectorIndex].r;

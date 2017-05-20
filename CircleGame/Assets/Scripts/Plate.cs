@@ -267,7 +267,7 @@ public class Plate : MonoBehaviour {
 	}
 		
 	public void getOneNoteDone(string note,int[] sectors){
-		Debug.Log (note);
+//		Debug.Log (note);
 		if (winMusic [0] != null && winMusic[0] == note ) {
 			Camera.main.GetComponent<WInLoseControl> ().deleteNode ();
 			winMusic.RemoveAt (0);
@@ -391,7 +391,7 @@ public class Plate : MonoBehaviour {
 				config [i].b = float.Parse(coolorss [2]);
 			}else{
 				string coolorS = res [0];
-				Debug.Log (coolorS);
+//				Debug.Log (coolorS);
 				string[] coolorss = coolorS.Split (',');
 				config [i].r = float.Parse(coolorss [0]);
 				config [i].g = float.Parse(coolorss [1]);
