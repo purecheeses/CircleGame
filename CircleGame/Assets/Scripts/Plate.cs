@@ -90,7 +90,7 @@ public class Plate : MonoBehaviour {
 
 	void Start(){
 		if (Camera.main.GetComponent<EditorControl> () == null) {
-			open("1-1");
+			open("2-1");
 		}
 	}
 	
