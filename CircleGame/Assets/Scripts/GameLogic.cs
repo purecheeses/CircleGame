@@ -143,15 +143,44 @@ public class GameLogic
 		Debug.Log ("wenkan isMatch " + isMatch);
 
 		if (isMatch) {
-			for (int i = 0; i < circleCount; i++) {
-				int thisSectorIndex = calcPointedSectorIndex (i);
-				_p.alignSector (i, thisSectorIndex);
-			}
+			
+			alignSectors (circleIndex);
 
-			var c = _p.config [sectorIndex];
-			string res = colorToNote (new Color(c.r,c.g,c.b));
-			int[] sectors =  getMatchedSectors ();
-			_p.getOneNoteDone (res,sectors);
+
+		}
+	}
+
+	private bool _enable_touch = true;
+
+	private void alignSectors(int sectorIndex)
+	{
+		#if UNITY_IPHONE
+		Handheld.Vibrate ();
+		#endif
+
+		_enable_touch = false;
+
+		int total = circleCount * sectorCount;
+
+		int counter = 0;
+		ActionCallback callback = delegate {
+			_enable_touch = true;
+			counter++;
+
+			Debug.Log("counter "+counter);
+
+			if (counter >= total){
+				var c = _p.config [sectorIndex];
+				string res = colorToNote (new Color(c.r,c.g,c.b));
+				int[] sectors =  getMatchedSectors ();
+				_p.getOneNoteDone (res,sectors);
+				counter = 0;
+			}
+		};
+
+		for (int i = 0; i < circleCount; i++) {
+			int thisSectorIndex = calcPointedSectorIndex (i);
+			_p.alignSector (i, thisSectorIndex, callback);
 		}
 	}
 
