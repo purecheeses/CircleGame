@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine.UI;
 
 public static class globalConfig{
-	public static float radius = 3.0f;
+	public static float radius = 5.0f;
 	public static Dictionary<string,string> colorMusicPair = new Dictionary<string, string> (){
 		{"245,138,172","do"},
 		{"45,197,201","re"},
@@ -81,7 +81,7 @@ public class Plate : MonoBehaviour {
 
 	void Start(){
 		if (Camera.main.GetComponent<EditorControl> () == null) {
-			open("2-1");
+			open("1-1");
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class Plate : MonoBehaviour {
 			sector_rotations [i] = config [i].rotation;
 		}
 
-		drawFrontier ();
+//		drawFrontier ();
 		drawSector ();
 	}
 
